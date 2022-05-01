@@ -1,0 +1,118 @@
+#hero {
+    background: url("../images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.image img {
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.getStarted,
+.getStartedNav {
+    background-color: brown;
+    color: white;
+    border-radius: 10px;
+    width: 100%;
+    transition: ease-in .5s;
+}
+.getStartedNav:hover {
+    background: transparent;
+    border: 1px solid brown;
+    border-radius: 10px;
+    color: black;
+}
+
+
+.getStarted:hover {
+    background: transparent;
+    border: 1px solid brown;
+    border-radius: 10px;
+}
+
+.login {
+    border: 1px solid brown;
+    border-radius: 10px;
+    transition: ease-in .5s;
+}
+
+li {
+    cursor: pointer;
+}
+
+.h {
+    min-height: 100vh;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.login:hover {
+    background-color: brown;
+    color: white;
+    border-radius: 10px;
+}
+
+.cardcontainer {
+    border: 1px solid brown;
+    border-radius: 10px;
+    
+}
+
+.bg {
+    background-color: brown;
+    color: white;
+}
+
+.enclose {
+    border-radius: 10px;
+
+}
+
+.section {
+    color: brown;
+}
+
+.cardImage {
+    width: 80px;
+    margin: auto;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+textarea {
+    margin-bottom: 10px;
+}
+
+span {
+    color: blue;
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+    .cardcontainer {
+        border: 1px solid brown;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+}
