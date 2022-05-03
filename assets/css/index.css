@@ -99,6 +99,39 @@ span {
     color: blue;
 }
 
+.adlog {
+    background-color: blue;
+    color: white;
+    width: 80%;
+    border-radius: 10px;
+}
+
+.admin {
+    background-color: blue;
+    color: white;
+}
+
+.adlog:hover {
+    background-color: rgb(139, 139, 179);
+    color: white;
+    width: 80%;
+    border-radius: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: none;
+
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+li a {
+    text-decoration: none;
+}
+
 
 
 

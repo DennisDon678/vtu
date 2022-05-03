@@ -2,7 +2,7 @@
 session_start();
 include('../../connection/database.php');
 
-if (isset($_POST['submit']) && $_POST['checkbox'] === 'on') {
+if (isset($_POST['submit']) && isset($_POST['checkbox'])) {
 
     $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);

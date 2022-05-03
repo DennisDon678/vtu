@@ -3,7 +3,7 @@
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://halleldatang.com/api/data/',
+    CURLOPT_URL => 'https://halleldatang.com/api/topup/',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -12,9 +12,11 @@ curl_setopt_array($curl, array(
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'POST',
     CURLOPT_POSTFIELDS => '{"network":1,
-"mobile_number": "09032431003",
-"plan": 7,
+"amount":100,
+"mobile_number":09032431003,
 "Ported_number":true
+"airtime_type":"VTU"
+
 }',
     CURLOPT_HTTPHEADER => array(
         'Authorization: Token b5b7fd471655bba431c9b9a0084a2aae7cf52b1f',
@@ -25,4 +27,4 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 
 curl_close($curl);
-var_dump($response);
+echo $response;

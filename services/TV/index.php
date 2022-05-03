@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/index.css">
+    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../assets/css/index.css">
     <title>Services</title>
 </head>
 
@@ -42,66 +42,29 @@
     <section class="h bg container-fluid pb-3 pt-5">
         <div class="mainctn  container px-3 bg-light text-dark py-3 enclose">
             <div class="d-flex flex-wrap  text-center gap-3">
-                <div class="col-md-3 p-2 cardcontainer col-6">
+                <div class="col-md-4 p-2 cardcontainer col-6">
                     <div class="image cardImage">
-                        <img class="img-fluid" src="../assets/images/airtime.svg" alt="" srcset="">
+                        <img class="img-fluid" src="../../assets/images/startimes.png" alt="" srcset="">
                     </div>
-                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#airtime">Airtime Topup</a>
-                </div>
-
-                <div class="col-md-3 p-2 cardcontainer col-6">
-                    <div class="image cardImage">
-                        <img class="img-fluid" src="../assets/images/mtn.png" alt="" srcset="">
-
-                    </div>
-                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#mtn">MTN data</a>
-
+                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#airtime">Starimes</a>
                 </div>
 
                 <div class="col-md-3 p-2 cardcontainer col-6">
                     <div class="image cardImage">
-                        <img class="img-fluid" src="../assets/images/airtel.png" alt="" srcset="">
+                        <img class="img-fluid" src="../../assets/images/Dstv.png" alt="" srcset="">
 
                     </div>
-                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#airtel">Airtel data</a>
+                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#mtn">DSTV</a>
+
                 </div>
 
-                <div class="col-md-3 p-2 cardcontainer col-6">
+                <div class="col-md-4 p-2 cardcontainer col-6">
                     <div class="image cardImage">
-                        <img class="img-fluid" src="../assets/images/glo.jpg" alt="" srcset="">
+                        <img class="img-fluid" src="../../assets/images/gotv.png" alt="" srcset="">
 
                     </div>
-                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#glo">GLO data</a>
+                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#airtel">GoTV</a>
                 </div>
-
-                <div class=" col-md-3 p-2 cardcontainer col-6">
-                    <div class="image cardImage">
-                        <img class="img-fluid" src="../assets/images/9Mobile.jpg" alt="" srcset="">
-
-                    </div>
-                    <a class="btn mt-3 getStarted">9mobile data</a>
-                </div>
-
-                <div class="col-md-3 p-2 cardcontainer col-6">
-                    <div class="image ">
-                        <div class="cardImage">
-                            <img class="img-fluid" src="../assets/images/curved-tv.png" alt="" srcset="">
-                        </div>
-                    </div>
-                    <a class="btn mt-3 getStarted" href="../services/TV/"> Tv Subscription</a>
-
-                </div>
-
-                <div class="col-md-3 p-2 cardcontainer col-6">
-                    <div class="image ">
-                        <div class="cardImage">
-                            <img class="img-fluid" src="../assets/images/bulb.png" alt="" srcset="">
-                        </div>
-                    </div>
-                    <a class="btn mt-3 getStarted">Electricity bills</a>
-
-                </div>
-
             </div>
         </div>
     </section>
@@ -116,7 +79,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Airtime Top Up</h5>
+                        <h5 class="modal-title">Startimes subscription</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body m-3 cardcontainer">
@@ -161,7 +124,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">MTN Data Service</h5>
+                        <h5 class="modal-title">DSTV Subscription</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body m-3 cardcontainer">
@@ -198,7 +161,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Airtel Data Service</h5>
+                        <h5 class="modal-title">GoTV subscription</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body m-3 cardcontainer">
@@ -231,54 +194,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- GLO -->
-
-        <div class="modal fade" id="glo" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">GLO Data Service</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body m-3 cardcontainer">
-                        <form action="../app/services/Data.php" method="post">
-
-                            <input type="hidden" name="network_id" value="2">
-
-                            <div class="form-outline flex-fill mb-1">
-                                <input type="tel" name="phone" placeholder="Enter Your Phone number e.g 08100918427" class="form-control" />
-                                <label class="form-label" for="phone">Your phone number</label>
-                            </div>
-                            <div class="form-outline flex-fill mb-1">
-                                <select name="plan" class="form-select">
-                                    <option selected>Click to select plan</option>
-                                    <option value="194">1.05GB GIFTING Data - NGN </option>
-                                    <option value="195">2.9GB GIFTING Data - NGN </option>
-                                    <option value="196">4.1GB GIFTING Data - NGN </option>
-                                    <option value="197">5.8GB GIFTING Data - NGN </option>
-                                    <option value="198">7.7GB GIFTING Data - NGN </option>
-                                    <option value="199">10GB GIFTING Data - NGN </option>
-                                    <option value="200">13.25GB GIFTING Data - NGN </option>
-                                    <option value="201">18.25GB GIFTING Data - NGN </option>
-                                    <option value="202">29.5GB GIFTING Data - NGN </option>
-                                    <option value="203">50GB GIFTING Data - NGN </option>
-
-                                </select>
-                                <label class="form-label" for="plan">Select Plan</label>
-                            </div>
-                            <div class="form-outline flex-fill mb-0">
-                                <input type="submit" name="submit" value="Purchase Now" class="form-control getStarted" />
-
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
     </section>
 
 
@@ -289,7 +204,7 @@
     <script src=" https://js.paystack.co/v1/inline.js">
     </script>
 
-    <script src="../assets/bootstrap/js/bootstrap.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.js"></script>
 </body>
 
 </html>
