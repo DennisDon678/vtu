@@ -86,7 +86,7 @@ if (!isset($_SESSION['user'])) {
 
                 <div class="requestForm cardcontainer mt-3 mx-auto px-3 py-3">
                     <p>Fill in the form after payment for verification</p>
-                    <form action="" method="post">
+                    <form action="../app/forms/payment/manual_transfer.php" method="post">
                         <label class="ml-0" for="amount">Amount</label>
                         <input class="form-control" type="number" placeholder="Enter the amount you sent" name="amount" id="">
 

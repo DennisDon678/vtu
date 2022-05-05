@@ -4,9 +4,6 @@ include('../../connection/database.php');
 if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
-
-
-
 ?>
 
 
@@ -17,16 +14,16 @@ if (!isset($_SESSION['admin'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Area</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
 </head>
 
-<body style="background-color: blue;">
-    <section class=" section mb-5" id="dashboard">
+<body class="admin h">
+    <section class=" section mb-5">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../../">VTU</a>
+                <a class="navbar-brand" href="../">VTU</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -53,7 +50,7 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../account">Account update</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../site">Site settings </a>
+                                <a class="nav-link" href="">Site settings </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
@@ -65,76 +62,56 @@ if (!isset($_SESSION['admin'])) {
         </nav>
     </section>
 
-    <!-- Dashboard -->
-    <section class="container-fluid py-5 h " id="dash">
-        <div class="container px-3 text-dark enclose bg-light">
-            <div class="d-sm-flex  justify-content-center gap-4 py-5 text-center">
-                <!-- account balance -->
-                <div class="col-sm-3 section cardcontainer">
-                    <h2 class="ml-auto">API Balance</h2>
-                    <h3>NGN 4000</h3>
-                </div>
-                <!-- Deposite -->
-                <div class="col-sm-4 section cardcontainer">
-                    <h2 class="ml-auto">Number of users</h2>
-                    <h3 class="">45 </h3>
-                </div>
-                <!-- purchase -->
-                <div class="col-sm-4 section cardcontainer">
-                    <h2 class="ml-auto">Number of Tranaction</h2>
-                    <h3 class="">100</h3>
-                </div>
+    <!-- online payment-->
+    <section class="container-fluid mt-5 py-5 h">
+        <div class="container py-4 section bg-light enclose">
+            <h3 class=" text-center">Update Payment options</h3>
+            <div class="notice">
+                <p class="alert alert-success">All online payment are done through paystack gatway, ensure to create an account with them.</p>
             </div>
+            <form class="text-dark" action="../../app/forms/payment_gateway/gateway.php" method="post">
+                <div class="form mb-3">
+                    <label for="fullname">Modify your paystack secret key</label>
+                    <input class="form-control" type="text" name="secret_key" id="" required>
+                </div>
+
+                <div class="form mb-3">
+                    <label for="fullname">Modify your paystack public key</label>
+                    <input class="form-control" type="text" name="public_key" id="" required>
+                </div>
+
+                <div class="form justify-content-center text-dark mb-3">
+                    <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update" id="">
+                </div>
+            </form>
+
+            <h3 class=" text-center">Update Banck transfer options</h3>
+            <div class="notice">
+                <p class="alert alert-success">All payment made through this channel requires manual approval. Ensure to input correct bank information.</p>
+            </div>
+            <form class="text-dark" action="" method="post">
+                <div class="form mb-3">
+                    <label for="fullname">Account Number</label>
+                    <input class="form-control" type="text" name="ac_number" id="" required>
+                </div>
+
+                <div class="form mb-3">
+                    <label for="fullname">Account Name</label>
+                    <input class="form-control" type="text" name="ac_name" id="" required>
+                </div>
+
+                <div class="form mb-3">
+                    <label for="fullname">Bank Name</label>
+                    <input class="form-control" type="text" name="bank_name" id="" required>
+                </div>
+
+                <div class="form justify-content-center text-dark mb-3">
+                    <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update">
+                </div>
+            </form>
         </div>
 
-        <!-- Deposit -->
-
-        <div class="trans container py-4 my-4 bg-light section cardcontainer">
-            <div class="  ">
-                <!-- Transactions -->
-                <h3 class="text-center">Pending Deposits</h3>
-                <div class="col-sm-10 px-3 mx-auto py-3  cardcontainer ">
-
-                    <div class="d-flex text-dark">
-                        <div class="col-sm-5">
-                            <h6>A pending proof</h6>
-                            <p>From: <span>dennisdon678@gmail.com</span> </p>
-                            <p>At: <span>2022-03-04 7:20 AM</span> </p>
-                        </div>
-                        <div class="col-sm-6 text-end">
-                            <h6 class="">NGN 250</h6>
-                            <a class="btn btn-primary" href="">Approve</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Histories -->
-        <div class="trans container py-4 my-4 bg-light section cardcontainer">
-            <div class="">
-                <!-- Transactions -->
-                <h3 class="text-center">Transaction History</h3>
-                <div class="col-sm-10 px-3 mx-auto py-3 cardcontainer ">
-
-                    <div class="d-flex pb-3 text-dark">
-                        <div class="col-sm-5">
-                            <h6>1Gb MTN SME data</h6>
-                            <p>Tranaction status: <span>succcess</span> </p>
-                        </div>
-                        <div class="col-sm-6 text-end ">
-                            <h6 class="">NGN 250</h6>
-                            <a class="btn btn-primary" href="">Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
-
-
-
-
 
 
 

@@ -41,7 +41,7 @@
     <!-- Services -->
     <section class="h bg container-fluid pb-3 pt-5">
         <div class="mainctn  container px-3 bg-light text-dark py-3 enclose">
-            <div class="d-flex flex-wrap  text-center gap-3">
+            <div class="d-flex flex-wrap justify-content-center  text-center gap-3">
                 <div class="col-md-4 p-2 cardcontainer col-6">
                     <div class="image cardImage">
                         <img class="img-fluid" src="../../assets/images/startimes.png" alt="" srcset="">

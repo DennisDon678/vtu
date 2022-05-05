@@ -124,6 +124,10 @@ ul {
 
 }
 
+table * {
+    white-space: nowrap;
+}
+
 li {
     margin-bottom: 5px;
 }
