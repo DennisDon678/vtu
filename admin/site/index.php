@@ -4,6 +4,9 @@ include('../../connection/database.php');
 if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
+
+
+
 ?>
 
 
@@ -14,16 +17,16 @@ if (!isset($_SESSION['admin'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Admin Area</title>
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
 </head>
 
-<body class="admin h">
-    <section class=" section mb-5">
+<body style="background-color: blue;">
+    <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../">VTU</a>
+                <a class="navbar-brand" href="../../">VTU</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -50,7 +53,7 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../account">Account update</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Site settings </a>
+                                <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
@@ -62,10 +65,10 @@ if (!isset($_SESSION['admin'])) {
         </nav>
     </section>
 
-    <!-- online payment-->
+
     <section class="container-fluid mt-5 py-5 h">
         <div class="container py-4 section bg-light enclose">
-            
+
 
             <h3 class=" text-center">Update Website settings options</h3>
             <div class="notice">
@@ -85,7 +88,7 @@ if (!isset($_SESSION['admin'])) {
                 <div class="form mb-3">
                     <label for="fullname">Site favicon</label>
                     <input class="form-control" type="file" name="favicon" id="" required>
-                
+
                 </div>
 
                 <div class="form justify-content-center text-dark mb-3">

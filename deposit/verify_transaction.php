@@ -11,6 +11,14 @@ if ($result>0) {
     $oldBalance = $result['balance'];
 }
 
+// payment_gateways
+$sql2 = "SELECT * FROM payment_gateways ";
+$query2 = mysqli_query($conn, $sql2);
+$result2 = mysqli_fetch_array($query2);
+
+if ($result2) {
+  $secret_key = $result2['secret_key'];
+}
 
 
 // Paystack verification
@@ -26,7 +34,7 @@ curl_setopt_array($curl, array(
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "GET",
   CURLOPT_HTTPHEADER => array(
-    "Authorization: Bearer sk_test_539d6d80cddd21ecc375b3d62c67fff2dc662c0f",
+    "Authorization: Bearer $secret_key",
     "Cache-Control: no-cache",
   ),
 ));

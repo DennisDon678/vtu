@@ -46,7 +46,7 @@
                     <div class="image cardImage">
                         <img class="img-fluid" src="../../assets/images/startimes.png" alt="" srcset="">
                     </div>
-                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#airtime">Starimes</a>
+                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#startimes">Starimes</a>
                 </div>
 
                 <div class="col-md-3 p-2 cardcontainer col-6">
@@ -54,7 +54,7 @@
                         <img class="img-fluid" src="../../assets/images/Dstv.png" alt="" srcset="">
 
                     </div>
-                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#mtn">DSTV</a>
+                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#dstv">DSTV</a>
 
                 </div>
 
@@ -75,36 +75,30 @@
     <section>
 
         <!-- Airtime -->
-        <div class="modal fade" id="airtime" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal fade" id="startimes" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Startimes subscription</h5>
+                        <h5 class="modal-title">Startimes Subscription</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body m-3 cardcontainer">
-                        <form action="../app/services/airtime.php" method="post">
-
+                        <form action="../app/services/Data.php" method="post">
+                            <input type="hidden" name="cable_id" value="3">
                             <div class="form-outline flex-fill mb-1">
-                                <select name="network_id" class="form-select">
-                                    <option selected>Click to select Network</option>
-                                    <option value="1">MTN </option>
-                                    <option value="2">GLO </option>
-                                    <option value="4">Airtel </option>
-                                    <option value="3">9mobile </option>
-
+                                <input type="tel" name="Cable_number" placeholder="Enter Your cable number" class="form-control" />
+                                <label class="form-label" for="phone">Cable NUmber</label>
+                            </div>
+                            <div class="form-outline flex-fill mb-1">
+                                <select name="plan" class="form-select">
+                                    <option selected>Click to select plan</option>
+                                    <option value="49">500MB SME Data - NGN </option>
+                                    <option value="7">1GB SME Data - NGN </option>
+                                    <option value="8">2GB SME Data - NGN </option>
+                                    <option value="11">5GB SME Data - NGN </option>
+                                    <option value="213">10GB SME Data - NGN </option>
                                 </select>
-                                <label class="form-label" for="plan">Select Network</label>
-                            </div>
-
-                            <div class="form-outline flex-fill mb-1">
-                                <input type="tel" name="phone" placeholder="Enter Your Phone number e.g 08100918427" class="form-control" />
-                                <label class="form-label" for="phone">Your phone number</label>
-                            </div>
-
-                            <div class="form-outline flex-fill mb-1">
-                                <input type="tel" name="amount" placeholder="min amount of 100" class="form-control" />
-                                <label class="form-label" for="amount">Amount in NGN</label>
+                                <label class="form-label" for="plan">Select Plan</label>
                             </div>
                             <div class="form-outline flex-fill mb-0">
                                 <input type="submit" name="submit" value="Purchase Now" class="form-control getStarted" />
@@ -119,8 +113,8 @@
 
 
 
-        <!-- mtn -->
-        <div class="modal fade" id="mtn" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <!-- dstv -->
+        <div class="modal fade" id="dstv" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -129,18 +123,18 @@
                     </div>
                     <div class="modal-body m-3 cardcontainer">
                         <form action="../app/services/Data.php" method="post">
-                            <input type="hidden" name="network_id" value="1">
+                            <input type="hidden" name="cable_number" value="2">
                             <div class="form-outline flex-fill mb-1">
-                                <input type="tel" name="phone" placeholder="Enter Your Phone number e.g 08100918427" class="form-control" />
-                                <label class="form-label" for="phone">Your phone number</label>
+                                <input type="tel" name="phone" placeholder="Enter Your cable number" class="form-control" />
+                                <label class="form-label" for="phone">Cable number</label>
                             </div>
                             <div class="form-outline flex-fill mb-1">
                                 <select name="plan" class="form-select">
                                     <option selected>Click to select plan</option>
-                                    <option value="49">500MB SME Data - NGN </option>
-                                    <option value="7">1GB SME Data - NGN </option>
-                                    <option value="8">2GB SME Data - NGN </option>
-                                    <option value="11">5GB SME Data - NGN </option>
+                                    <option value="6">DStv Yanga </option>
+                                    <option value="7">DStv Compact </option>
+                                    <option value="8">DStv Compact Plus</option>
+                                    <option value="9"> DStv Premium</option>
                                     <option value="213">10GB SME Data - NGN </option>
                                 </select>
                                 <label class="form-label" for="plan">Select Plan</label>

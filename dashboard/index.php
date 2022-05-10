@@ -17,10 +17,19 @@ if ($result > 0) {
 
 
 // deposits
-$sql = "SELECT * FROM deposit  WHERE id = '$id' ORDER BY  deposit.time DESC limit 10";
+$sql = "SELECT * FROM deposit  WHERE id = '$id' ORDER BY time DESC limit 5";
 $query = mysqli_query($conn, $sql);
-$result = mysqli_fetch_array($query);
+$results = mysqli_num_rows($query);
 
+// transactions
+$sql2 = "SELECT * FROM transactions  WHERE id = '$id' ORDER BY time DESC limit 5";
+$query2 = mysqli_query($conn, $sql2);
+$results2 = mysqli_num_rows($query2);
+
+// pending deposits
+$sql3 = "SELECT * FROM manual_deposits where id = $id";
+$query3 = mysqli_query($conn, $sql3);
+$results3 = mysqli_num_rows($query3);
 
 ?>
 
@@ -90,19 +99,34 @@ $result = mysqli_fetch_array($query);
         </div>
         <!-- Histories -->
         <div class="trans container py-4 my-4 bg-light section cardcontainer">
-            <div class="d-sm-flex justify-content-center gap-4">
+            <div class="d-sm-flex flex-wrap justify-content-center gap-4">
                 <!-- Transactions -->
                 <div class="col-sm-5 px-3 cardcontainer ">
                     <h3 class="text-center">Transaction History</h3>
-                    <div class="d-flex text-dark">
-                        <div class="col-sm-5">
-                            <h6>1Gb MTN SME data</h6>
-                            <p>Tranaction status: <span>succcess</span> </p>
-                        </div>
-                        <div class="col-sm-6 ">
-                            <h6 class="text-end">NGN 250</h6>
-                        </div>
-                    </div>
+                    <?php
+                    if ($results2) {
+
+
+                        while ($res2 = mysqli_fetch_assoc($query2)) {
+
+                            $amount2 = $res2['amount'];
+                            $status2 = $res2['status'];
+                            echo ('<div class="d-flex flex-wrap text-dark">');
+                            echo ('<div class="col-sm-6">');
+                            echo ('<h6>Account funding</h6>');
+                            echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
+                            echo ('</div>');
+                            echo ('<div class="col-sm-6">');
+                            echo ('<h6 class="text-end">NGN ' . $amount2 . '</h6>');
+                            echo ('</div>');
+                            echo ('</div>');
+                        }
+                    } else {
+                        echo ('
+                                <p class="text-center text-dark mt-3"> No Transaction has been made</p>
+                            ');
+                    }
+                    ?>
                 </div>
 
                 <!-- Deposit -->
@@ -110,11 +134,11 @@ $result = mysqli_fetch_array($query);
                     <h3 class="text-center">Deposit History</h3>
 
                     <?php
-                    if ($result) {
+                    if ($results) {
 
 
-                        while ($res = mysqli_fetch_array($query)) {
-                            
+                        while ($res = mysqli_fetch_assoc($query)) {
+
                             $amount = $res['amount'];
                             $status = $res['status'];
                             echo ('<div class="d-flex flex-wrap text-dark">');
@@ -135,7 +159,47 @@ $result = mysqli_fetch_array($query);
                     ?>
                 </div>
 
+                <div class=" col-sm-5  cardcontainer ">
+                    <!-- Transactions -->
+                    <h3 class="text-center">Pending Deposits</h3>
+
+                    <?php
+                    if ($results3) {
+                        echo ('
+                    
+                <div class="col-sm-10 px-2 mx-auto py-3   ">
+                     ');
+
+                        while ($result = mysqli_fetch_assoc($query3)) {
+                            $id = $result['trans_id'];
+                            $email = $result['email'];
+                            $time = $result['time'];
+                            $amount = $result['amo'];
+                            $depositors_name = $result['depositor'];
+                            echo ('
+                    <div class="d-flex mb-3 ps-3 pt-3  text-dark">
+                        <div class="col-sm-5">
+                            <h6>A pending proof</h6>
+                            <p>From: <span>' . $email . '</span> </p>
+                            <p>Bank Name: <span>' . $depositors_name . '</span> </p>
+                            <p>At: <span>' . $time . '</span> </p>
+                        </div>
+                        <div class="col-sm-6 text-end">
+                            <h6 class="">NGN ' . $amount . '</h6>
+                        </div>
+                    </div>
+                    ');
+                        }
+                    } else {
+                        echo ('
+                <p class="text-center text-dark mt-3"> No pending transaction </p>
+                ');
+                    }
+                    ?>
+                </div>
             </div>
+
+        </div>
     </section>
 
     <!-- Account -->

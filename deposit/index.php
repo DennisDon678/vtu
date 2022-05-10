@@ -4,6 +4,16 @@ include('../connection/database.php');
 if (!isset($_SESSION['user'])) {
     header('location: ../login');
 }
+
+// payment_gateways
+$sql2 = "SELECT * FROM payment_gateways ";
+$query2 = mysqli_query($conn, $sql2);
+$result2 = mysqli_fetch_array($query2);
+
+if ($result2) {
+    $public_key = $result2['public_key'];
+}
+
 ?>
 
 
@@ -71,12 +81,12 @@ if (!isset($_SESSION['user'])) {
                 </div>
 
                 <div class="form justify-content-center text-dark mb-3">
-                    <input onclick="payWithPaystack()" class=" form-control w-50 btn getStarted" type="submit" value="Deposit now" >
+                    <input onclick="payWithPaystack()" class=" form-control w-50 btn getStarted" type="submit" value="Pay with Card">
                 </div>
             </form>
 
             <!-- Bank Transfer -->
-            <div class="bank text-dark bg-light">
+            <div class="bank my-3 text-dark bg-light">
                 <div class="details text-center">
                     <h5>Make a direct bank transfer:</h5>
                     <h6>Account Number: 0123949638</h6>
@@ -91,7 +101,7 @@ if (!isset($_SESSION['user'])) {
                         <input class="form-control" type="number" placeholder="Enter the amount you sent" name="amount" id="">
 
                         <label class="ml-0" for="amount">Senders Name</label>
-                        <input class="form-control" type="text" placeholder="Enter the senders name as it appears on the account" name="name" id="">
+                        <input class="form-control" type="text" placeholder="Enter the senders name as it appears on the account" name="name" id="" required>
                         <input class="form-control py-1 getStarted btn" type="submit" name="submit" value="Send Proof" id="">
                     </form>
                 </div>
@@ -103,7 +113,29 @@ if (!isset($_SESSION['user'])) {
 
     <script src=" https://js.paystack.co/v1/inline.js">
     </script>
-    <script src="./index.js"></script>
+    <script>
+        const paymentForm = document.getElementById('paymentForm');
+        paymentForm.addEventListener("submit", payWithPaystack, false);
+
+        function payWithPaystack(e) {
+            e.preventDefault();
+            let handler = PaystackPop.setup({
+                key: '<?=$public_key?>', // Replace with your public key
+                email: document.getElementById("email-address").value,
+                amount: document.getElementById("amount").value * 100,
+                ref: 'AC-' + Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+                // label: "Optional string that replaces customer email"
+                onClose: function() {
+                    alert('Window closed.');
+                },
+                callback: function(response) {
+                    window.location = "../deposit/verify_transaction.php?reference=" + response.reference;
+
+                }
+            });
+            handler.openIframe();
+        }
+    </script>
     <script src="../assets/bootstrap/js/bootstrap.js"></script>
 </body>
 

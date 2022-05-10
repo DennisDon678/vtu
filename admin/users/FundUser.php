@@ -5,7 +5,21 @@ if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    $sql = "SELECT * FROM users WHERE id = $id";
+    $query = mysqli_query($conn, $sql);
+    $result = mysqli_fetch_assoc($query);
+
+    if ($result) {
+        $username = $result['username'];
+    } else {
+    }
+}
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -63,38 +77,31 @@ if (!isset($_SESSION['admin'])) {
         </nav>
     </section>
 
-    <!-- Account -->
-    <section class="container-fluid mt-5 py-5 h" id="acc">
-        <div class="container py-4 section bg-light enclose">
-            <h3 class=" text-center">Update Account</h3>
-            <form class="text-dark" action="" method="post">
-                <div class="form mb-3">
-                    <label for="fullname">Modify your full name</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
+    <section>
+        <div class="fundform pt-5">
+            <div class="container enclose p-4 bg-light">
+                <h5 class="text-center section">Fund this user</h5>
+                <form action="./fund.php" method="post">
+                    <div class="name mb-3">
+                        <label class="ml-0" for="amount">Username</label>
+                        <input class="form-control" type="text" value="<?= $username ?>" placeholder="<?= $username ?>" name="username" id="">
+                    </div>
 
-                <div class="form mb-3">
-                    <label for="fullname">Modify your username</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
+                    <div class="amount mb-3">
+                        <label class="ml-0" for="amount">Amount to Fund</label>
+                        <input class="form-control" type="tel" placeholder="Enter the amount" name="amount" id="">
+                    </div>
 
-                <div class="form mb-3">
-                    <label for="fullname">Modify your email</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
+                    <div class="submit mb-3"> <input class="form-control py-1  btn btn-primary" type="submit" name="submit" value="Fund Account" id="">
+                    </div>
 
-                <div class="form mb-3">
-                    <label for="fullname">Modify your password</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
-
-                <div class="form justify-content-center text-dark mb-3">
-                    <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update" id="">
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-
     </section>
+
+
+
 
 
     <script src="../../assets/js/index.js"></script>

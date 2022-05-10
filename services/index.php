@@ -79,7 +79,7 @@
                         <img class="img-fluid" src="../assets/images/9Mobile.jpg" alt="" srcset="">
 
                     </div>
-                    <a class="btn mt-3 getStarted">9mobile data</a>
+                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#mobile">9mobile data</a>
                 </div>
 
                 <div class="col-md-3 p-2 cardcontainer col-6">
@@ -98,7 +98,7 @@
                             <img class="img-fluid" src="../assets/images/bulb.png" alt="" srcset="">
                         </div>
                     </div>
-                    <a class="btn mt-3 getStarted">Electricity bills</a>
+                    <a class="btn mt-3 getStarted" data-bs-toggle="modal" data-bs-target="#elect">Electricity bills</a>
 
                 </div>
 
@@ -274,6 +274,104 @@
                         </form>
                     </div>
 
+                </div>
+            </div>
+        </div>
+
+        <!-- 9mobil -->
+        <div class="modal fade" id="mobile" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">9mobile Data Service</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-3 cardcontainer">
+                        <form action="../app/services/Data.php" method="post">
+
+                            <input type="hidden" name="network_id" value="3">
+
+                            <div class="form-outline flex-fill mb-1">
+                                <input type="tel" name="phone" placeholder="Enter Your Phone number e.g 08100918427" class="form-control" />
+                                <label class="form-label" for="phone">Your phone number</label>
+                            </div>
+                            <div class="form-outline flex-fill mb-1">
+                                <select name="plan" class="form-select">
+                                    <option selected>Click to select plan</option>
+                                    <option value="182">500MB GIFTING Data - NGN </option>
+                                    <option value="183">1.5GB GIFTING Data - NGN </option>
+                                    <option value="184">2.0GB GIFTING Data - NGN </option>
+                                    <option value="185">3.0GB GIFTING Data - NGN </option>
+                                    <option value="186">4.5GB GIFTING Data - NGN </option>
+                                    <option value="187">11.0GB GIFTING Data - NGN </option>
+                                    <option value="188">15.0GB GIFTING Data - NGN </option>
+                                    <option value="189">40.0GB GIFTING Data - NGN </option>
+                                    <option value="190">75.0GB GIFTING Data - NGN </option>
+                                </select>
+                                <label class="form-label" for="plan">Select Plan</label>
+                            </div>
+                            <div class="form-outline flex-fill mb-0">
+                                <input type="submit" name="submit" value="Purchase Now" class="form-control getStarted" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Electricity payment -->
+        <div class="modal fade" id="elect" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Electricity payment Service</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-3 cardcontainer">
+                        <form action="../app/services/Electricity.php" method="post">
+
+
+                            <div class="form-outline flex-fill mb-1">
+                                <select name="DiscoName" class="form-select">
+                                    <option selected>Click to select company</option>
+                                    <option value="1">Ikeja Electric </option>
+                                    <option value="2">Eko Electric </option>
+                                    <option value="3">Abuja Electric </option>
+                                    <option value="4"> Kano Electric </option>
+                                    <option value="5">Enugu Electric </option>
+                                    <option value="6">Port Harcourt Electric</option>
+                                    <option value="7">Ibadan Electric</option>
+                                    <option value="8"> Kaduna Electric </option>
+                                    <option value="9">Jos Electric </option>
+                                    <option value="10">Benin Electric </option>
+                                    <option value="11">Yola Electric </option>
+                                </select>
+                                <label class="form-label" for="plan">Select Company</label>
+                            </div>
+
+                            <div class="metre-type form-outline flex-fill mb-1">
+                                <select name="meter_type" class="form-select">
+                                    <option selected>Click to select Meter type</option>
+                                    <option value="1">Prepaid </option>
+                                    <option value="2">Postpaid</option>
+                                </select>
+                                <label class="form-label" for="plan">Select Meter type</label>
+                            </div>
+
+                            <div class="form-outline flex-fill mb-1">
+                                <input type="tel" name="meter_number" placeholder="Enter Your meter number" class="form-control" />
+                                <label class="form-label" for="phone">Your meter number</label>
+                            </div>
+
+                            <div class="form-outline flex-fill mb-1">
+                                <input type="tel" name="amount" placeholder="Enter Amount" class="form-control" />
+                                <label class="form-label" for="phone">Amount</label>
+                            </div>
+                            <div class="form-outline flex-fill mb-0">
+                                <input type="submit" name="submit" value="Purchase Now" class="form-control getStarted" />
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

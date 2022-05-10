@@ -4,6 +4,9 @@ include('../../connection/database.php');
 if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
+
+
+
 ?>
 
 
@@ -14,16 +17,16 @@ if (!isset($_SESSION['admin'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Admin Area</title>
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
 </head>
 
-<body class="admin h">
-    <section class=" section mb-5">
+<body style="background-color: blue;">
+    <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../">VTU</a>
+                <a class="navbar-brand" href="../../">VTU</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -50,7 +53,7 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../account">Account update</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Site settings </a>
+                                <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>

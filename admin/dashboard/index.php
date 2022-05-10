@@ -1,9 +1,83 @@
 <?php
+/*
+---------------------------------------------------------------------------------
+| # First we establishes a session check to see if a user is an admin
+| # We establish from the deposit table if any deposit has been made that awaits   | approval
+| # We check out the transactions table to display all transaction from the users 
+| # We obtain from the users table the total balance of users
+| # Query your API to obtain the balance on your wallet balance
+| # Obtain the number of registerd users
+---------------------------------------------------------------------------------
+*/
+
+
+// Session check
 session_start();
 include('../../connection/database.php');
 if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
+
+
+// pending deposit
+
+$sql = "SELECT * FROM manual_deposits ";
+$query = mysqli_query($conn, $sql);
+$results = mysqli_num_rows($query);
+
+// transactions
+$sql2 = "SELECT * FROM transactions    limit 10";
+$query2 = mysqli_query($conn, $sql2);
+$results2 = mysqli_num_rows($query2);
+
+// Customers Balance
+$stm = "SELECT SUM(balance) from users";
+$Customers_balance = mysqli_query($conn, $stm);
+
+while ($ress = mysqli_fetch_array($Customers_balance)) {
+    $Cbalance = $ress['SUM(balance)'];
+}
+
+// number of users
+$users = "SELECT * from users";
+$exc = mysqli_query($conn,$users);
+$return = mysqli_num_rows($exc);
+
+// API Query for balance
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://halleldatang.com/api/user/',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Authorization: Token b5b7fd471655bba431c9b9a0084a2aae7cf52b1f',
+        'Content-Type: application/json'
+    ),
+));
+
+$response = curl_exec($curl);
+
+if ($response) {
+    curl_close($curl);
+    urldecode($response);
+    $arry = json_decode($response, true);
+    $balance = $arry['user']['Account_Balance'];
+} else {
+    $balance = '<br>
+    <p class="text-dark">
+    Unable to connect with your API 
+    <br>
+    check your Internet connection
+    </p>';
+}
+
 
 
 
@@ -68,21 +142,21 @@ if (!isset($_SESSION['admin'])) {
     <!-- Dashboard -->
     <section class="container-fluid py-5 h " id="dash">
         <div class="container px-3 text-dark enclose bg-light">
-            <div class="d-sm-flex  justify-content-center gap-4 py-5 text-center">
+            <div class="d-sm-flex align-items-center justify-content-center gap-4 py-5 text-center">
                 <!-- account balance -->
                 <div class="col-sm-3 section cardcontainer">
                     <h2 class="ml-auto">API Balance</h2>
-                    <h3>NGN 4000</h3>
+                    <h3>NGN <?=$balance?></h3>
                 </div>
                 <!-- Deposite -->
                 <div class="col-sm-4 section cardcontainer">
                     <h2 class="ml-auto">Number of users</h2>
-                    <h3 class="">45 </h3>
+                    <h3 class=""><?=$return?> </h3>
                 </div>
                 <!-- purchase -->
                 <div class="col-sm-4 section cardcontainer">
-                    <h2 class="ml-auto">Number of Tranaction</h2>
-                    <h3 class="">100</h3>
+                    <h2 class="ml-auto">Customers Balance</h2>
+                    <h3 class="">NGN <?= $Cbalance?></h3>
                 </div>
             </div>
         </div>
@@ -93,20 +167,44 @@ if (!isset($_SESSION['admin'])) {
             <div class="  ">
                 <!-- Transactions -->
                 <h3 class="text-center">Pending Deposits</h3>
-                <div class="col-sm-10 px-3 mx-auto py-3  cardcontainer ">
 
-                    <div class="d-flex text-dark">
+                <?php
+                if ($results) {
+                    echo ( '
+                    
+                <div class="col-sm-10 px-3 mx-auto py-3   ">
+                     ');
+
+                    while ($result = mysqli_fetch_assoc($query)) {
+                    $id = $result['trans_id'];
+                    $email = $result['email'];
+                    $time = $result['time'];
+                    $amount = $result['amo'];
+                    $depositors_name = $result['depositor'];
+                    echo ('
+                    <div class="d-flex mb-3 ps-3 pt-3 cardcontainer text-dark">
                         <div class="col-sm-5">
                             <h6>A pending proof</h6>
-                            <p>From: <span>dennisdon678@gmail.com</span> </p>
-                            <p>At: <span>2022-03-04 7:20 AM</span> </p>
+                            <p>From: <span>' . $email .'</span> </p>
+                            <p>Bank Name: <span>' . $depositors_name . '</span> </p>
+                            <p>At: <span>' . $time . '</span> </p>
                         </div>
                         <div class="col-sm-6 text-end">
-                            <h6 class="">NGN 250</h6>
-                            <a class="btn btn-primary" href="">Approve</a>
+                            <h6 class="">NGN ' . $amount . '</h6>
+                            <a class="btn mb-2 btn-primary" href="./approve/approve.php?id=' . $id .'">Approve</a>
+                            <br>
+                            <a class="btn mb-2 btn-danger" href="./reject/reject.php?id=' . $id . '">Reject</a>
 
                         </div>
                     </div>
+                    ');
+                    }
+                }else {
+                    echo ('
+                <p class="text-center text-dark mt-3"> No pending transaction </p>
+                ');
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -115,19 +213,30 @@ if (!isset($_SESSION['admin'])) {
             <div class="">
                 <!-- Transactions -->
                 <h3 class="text-center">Transaction History</h3>
-                <div class="col-sm-10 px-3 mx-auto py-3 cardcontainer ">
+                <?php
+                if ($results2) {
 
-                    <div class="d-flex pb-3 text-dark">
-                        <div class="col-sm-5">
-                            <h6>1Gb MTN SME data</h6>
-                            <p>Tranaction status: <span>succcess</span> </p>
-                        </div>
-                        <div class="col-sm-6 text-end ">
-                            <h6 class="">NGN 250</h6>
-                            <a class="btn btn-primary" href="">Details</a>
-                        </div>
-                    </div>
-                </div>
+
+                    while ($res2 = mysqli_fetch_assoc($query2)) {
+
+                        $amount2 = $res2['amount'];
+                        $status2 = $res2['status'];
+                        echo ('<div class="d-flex flex-wrap text-dark">');
+                        echo ('<div class="col-sm-6">');
+                        echo ('<h6>Account funding</h6>');
+                        echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
+                        echo ('</div>');
+                        echo ('<div class="col-sm-6">');
+                        echo ('<h6 class="text-end">NGN ' . $amount2 . '</h6>');
+                        echo ('</div>');
+                        echo ('</div>');
+                    }
+                } else {
+                    echo ('
+                <p class="text-center text-dark mt-3"> No Transaction has been made</p>
+                ');
+                }
+                ?>
             </div>
         </div>
     </section>

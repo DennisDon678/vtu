@@ -5,6 +5,10 @@ if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
 
+$sql = "SELECT * FROM users ";
+$query = mysqli_query($conn, $sql);
+
+
 
 
 ?>
@@ -17,16 +21,16 @@ if (!isset($_SESSION['admin'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Admin Area</title>
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
 </head>
 
-<body class="admin h">
-    <section class=" section mb-5">
+<body style="background-color: blue;">
+    <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../">VTU</a>
+                <a class="navbar-brand" href="../../">VTU</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -53,7 +57,7 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../account">Account update</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Site settings </a>
+                                <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
@@ -64,7 +68,6 @@ if (!isset($_SESSION['admin'])) {
             </div>
         </nav>
     </section>
-
     <section class="my-5">
         <div class="m-5  py-5 ">
             <div class="table-responsive enclose p-4 bg-light">
@@ -80,27 +83,28 @@ if (!isset($_SESSION['admin'])) {
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                        $sn = 0;
+
+                        while ($result = mysqli_fetch_assoc($query)) {
+                            $sn++;
+                            $name = $result['fullname'];
+                            $email = $result['email'];
+                            $balance = $result['balance'];
+                            $id = $result['id'];
+
+                            echo ('
                         <tr>
-                            <td>1</td>
-                            <td>Kent</td>
-                            <td>clarkkent@mail.com</td>
-                            <td>NGN 3000</td>
-                            <td><a class=" btn btn-primary" href="">View Details</a></td>
+                            <td>' . $sn . '</td>
+                            <td>' . $name . '</td>
+                            <td>' . $email . '</td>
+                            <td>NGN ' . $balance . '</td>
+                            <td><a class=" btn btn-primary" href="./Details.php?id='.$id.'">View Details</a></td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Kent</td>
-                            <td>clarkkent@mail.com</td>
-                            <td>NGN 3000</td>
-                            <td><a class="btn btn-primary" href="">View Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Kent</td>
-                            <td>clarkkent@mail.com</td>
-                            <td>NGN 3000</td>
-                            <td><a class="btn btn-primary" href="">View Details</a></td>
-                        </tr>
+                           ');
+                        }
+                        ?>
+
                     </tbody>
                 </table>
             </div>

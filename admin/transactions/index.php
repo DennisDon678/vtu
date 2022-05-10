@@ -5,7 +5,9 @@ if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
 
-
+$sql2 = "SELECT * FROM deposit  ORDER BY time DESC limit 10";
+$query2 = mysqli_query($conn, $sql2);
+$results2 = mysqli_num_rows($query2);
 
 ?>
 
@@ -17,16 +19,16 @@ if (!isset($_SESSION['admin'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Admin Area</title>
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
 </head>
 
-<body class="admin h">
-    <section class=" section mb-5">
+<body style="background-color: blue;">
+    <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../">VTU</a>
+                <a class="navbar-brand" href="../../">VTU</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -53,7 +55,7 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../account">Account update</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Site settings </a>
+                                <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
@@ -71,20 +73,30 @@ if (!isset($_SESSION['admin'])) {
 
                 <!-- Transactions -->
                 <h3 class="text-center">Transactions History</h3>
-                <div class="d-sm-flex justify-content-center gap-4">
-                    <div class="col-sm-10 p-3 cardcontainer ">
-                        <div class="d-flex pb-3 text-dark">
-                            <div class="col-sm-5">
-                                <h6>1Gb MTN SME data</h6>
-                                <p>Tranaction status: <span>succcess</span> </p>
-                            </div>
-                            <div class="col-sm-6 text-end ">
-                                <h6 class="">NGN 250</h6>
-                                <a class="btn btn-primary" href="">Details</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                if ($results2) {
+
+
+                    while ($res2 = mysqli_fetch_assoc($query2)) {
+
+                        $amount2 = $res2['amount'];
+                        $status2 = $res2['status'];
+                        echo ('<div class="d-flex flex-wrap text-dark">');
+                        echo ('<div class="col-sm-6">');
+                        echo ('<h6>Account funding</h6>');
+                        echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
+                        echo ('</div>');
+                        echo ('<div class="col-sm-6">');
+                        echo ('<h6 class="text-end">NGN ' . $amount2 . '</h6>');
+                        echo ('</div>');
+                        echo ('</div>');
+                    }
+                } else {
+                    echo ('
+                                <p class="text-center text-dark mt-3"> No Transaction has been made</p>
+                            ');
+                }
+                ?>
             </div>
         </div>
     </section>

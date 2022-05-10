@@ -15,7 +15,7 @@ if (isset($_POST['submit']) && isset($_POST['checkbox'])) {
     if ($fullname && $username && $email && $password && $password_verify) {
 
         if ($password === $password_verify) {
-
+            // $password=hash('md5',$password, true);
             $sql = "INSERT INTO users ( fullname, username, email, password, balance)
         
                                  VALUES ( '$fullname', '$username', '$email', '$password', $balance);";
@@ -24,14 +24,19 @@ if (isset($_POST['submit']) && isset($_POST['checkbox'])) {
            if ($query) {
                header('location: ../../dashboard');
            } else{
-
+             
            }
         } else {
-            echo('error');
+            $msg = 'Password needs to be the same';
+            header('location: ../../register/index.php?msg=' . $msg . '');
         }
     } else {
-        echo ('empty input');
+        $msg = 'Form field cannot be empty';
+        $msg = urlencode($msg);
+        header('location: ../../register/index.php?msg=' . $msg . '');
     }
 } else {
-    echo ('no');
+    $msg = 'Agree to our terms and conditions';
+    $msg = urlencode($msg);
+    header('location: ../../register/index.php?msg=' . $msg . '');
 }
