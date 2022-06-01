@@ -5,7 +5,33 @@ if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
 
+// payment_gateways
+$sql2 = "SELECT * FROM payment_gateways ";
+$query2 = mysqli_query($conn, $sql2);
+$result2 = mysqli_fetch_array($query2);
 
+if ($result2) {
+    $public_key = $result2['public_key'];
+    $secret_key = $result2['secret_key'];
+}
+
+
+// payment_gateways
+$sql = "SELECT * FROM bank_account ";
+$query = mysqli_query($conn, $sql);
+$result = mysqli_fetch_array($query);
+
+if ($result) {
+    $bank_name = $result['bank_name'];
+    $account_name = $result['account_name'];
+    $account_number = $result['account_number'];
+}
+
+// Site Details
+$sql4 = "SELECT * FROM site_settings";
+$query4 = mysqli_query($conn, $sql4);
+$results4 = mysqli_fetch_array($query4);
+$siteName = $results4['site_name'];
 
 ?>
 
@@ -26,7 +52,7 @@ if (!isset($_SESSION['admin'])) {
     <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../../">VTU</a>
+                <a class="navbar-brand" href="../../"><?=$siteName?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -56,6 +82,9 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="../vtu">vtu settings </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
                             </li>
 
@@ -75,12 +104,12 @@ if (!isset($_SESSION['admin'])) {
             <form class="text-dark" action="../../app/forms/payment_gateway/gateway.php" method="post">
                 <div class="form mb-3">
                     <label for="fullname">Modify your paystack secret key</label>
-                    <input class="form-control" type="text" name="secret_key" id="" required>
+                    <input class="form-control" type="password" value="<?= $secret_key ?>" name="secret_key" id="" required>
                 </div>
 
                 <div class="form mb-3">
                     <label for="fullname">Modify your paystack public key</label>
-                    <input class="form-control" type="text" name="public_key" id="" required>
+                    <input class="form-control" type="text" value="<?= $public_key ?>" name="public_key" id="" required>
                 </div>
 
                 <div class="form justify-content-center text-dark mb-3">
@@ -92,20 +121,20 @@ if (!isset($_SESSION['admin'])) {
             <div class="notice">
                 <p class="alert alert-success">All payment made through this channel requires manual approval. Ensure to input correct bank information.</p>
             </div>
-            <form class="text-dark" action="" method="post">
+            <form class="text-dark" action="../../app/forms/payment_gateway/bank.php" method="post">
                 <div class="form mb-3">
                     <label for="fullname">Account Number</label>
-                    <input class="form-control" type="text" name="ac_number" id="" required>
+                    <input class="form-control" value="<?= $account_number ?>" type="text" name="ac_number" id="" required>
                 </div>
 
                 <div class="form mb-3">
                     <label for="fullname">Account Name</label>
-                    <input class="form-control" type="text" name="ac_name" id="" required>
+                    <input class="form-control" value="<?= $account_name ?>" type="text" name="ac_name" id="" required>
                 </div>
 
                 <div class="form mb-3">
                     <label for="fullname">Bank Name</label>
-                    <input class="form-control" type="text" name="bank_name" id="" required>
+                    <input class="form-control" value="<?= $bank_name ?>" type="text" name="bank_name" id="" required>
                 </div>
 
                 <div class="form justify-content-center text-dark mb-3">

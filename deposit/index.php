@@ -5,6 +5,27 @@ if (!isset($_SESSION['user'])) {
     header('location: ../login');
 }
 
+// Get user
+$username = $_SESSION['user'];
+$sql1 = "SELECT * FROM users where username = '$username' ";
+$query1 = mysqli_query($conn, $sql1);
+$result1 = mysqli_fetch_array($query1);
+$fullname = $result1['fullname'];
+$username1 = $result1['username'];
+$email = $result1['email'];
+
+
+// payment_gateways
+$sql = "SELECT * FROM bank_account ";
+$query = mysqli_query($conn, $sql);
+$result = mysqli_fetch_array($query);
+
+if ($result) {
+    $bank_name = $result['bank_name'];
+    $account_name = $result['account_name'];
+    $account_number = $result['account_number'];
+}
+
 // payment_gateways
 $sql2 = "SELECT * FROM payment_gateways ";
 $query2 = mysqli_query($conn, $sql2);
@@ -12,8 +33,14 @@ $result2 = mysqli_fetch_array($query2);
 
 if ($result2) {
     $public_key = $result2['public_key'];
+    $secret_key = $result2['secret_key'];
 }
 
+// Site Details
+$sql4 = "SELECT * FROM site_settings";
+$query4 = mysqli_query($conn, $sql4);
+$results4 = mysqli_fetch_array($query4);
+$siteName = $results4['site_name'];
 ?>
 
 
@@ -33,7 +60,7 @@ if ($result2) {
     <section class="section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../">VTU</a>
+                <a class="navbar-brand" href="../"><?=$siteName?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -62,17 +89,17 @@ if ($result2) {
             <form class="text-dark cardcontainer px-4 pt-3" action="" id="paymentForm" method="post">
                 <div class="form mb-3">
                     <label for="fullname">Full name</label>
-                    <input class="form-control" type="text" name="fullname" id="first_name" required>
+                    <input class="form-control" value="<?= $fullname ?>" type="text" name="fullname" id="first_name" required>
                 </div>
 
                 <div class="form mb-3">
                     <label for="fullname">Username</label>
-                    <input class="form-control" type="text" name="username" id="" required>
+                    <input class="form-control" value="<?= $username1 ?>" type="text" name="username" id="" required>
                 </div>
 
                 <div class="form mb-3">
                     <label for="fullname">Email</label>
-                    <input class="form-control" type="text" name="email" id="email-address" required>
+                    <input class="form-control" value="<?= $email ?>" type="text" name="email" id="email-address" required>
                 </div>
 
                 <div class="form mb-3">
@@ -89,9 +116,9 @@ if ($result2) {
             <div class="bank my-3 text-dark bg-light">
                 <div class="details text-center">
                     <h5>Make a direct bank transfer:</h5>
-                    <h6>Account Number: 0123949638</h6>
-                    <h6>Bank Name: Union Bank of Nigeria</h6>
-                    <h6>Account Name: Onah Chimezie Dennis</h6>
+                    <h6>Bank Name: <?= $bank_name ?></h6>
+                    <h6>Account Number: <?= $account_number ?></h6>
+                    <h6>Account Name: <?= $account_name ?></h6>
                 </div>
 
                 <div class="requestForm cardcontainer mt-3 mx-auto px-3 py-3">
@@ -120,7 +147,7 @@ if ($result2) {
         function payWithPaystack(e) {
             e.preventDefault();
             let handler = PaystackPop.setup({
-                key: '<?=$public_key?>', // Replace with your public key
+                key: '<?= $public_key ?>', // Replace with your public key
                 email: document.getElementById("email-address").value,
                 amount: document.getElementById("amount").value * 100,
                 ref: 'AC-' + Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you

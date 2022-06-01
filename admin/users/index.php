@@ -5,11 +5,15 @@ if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
 
-$sql = "SELECT * FROM users ";
+$sql = "SELECT * FROM users ORDER BY registered_at desc";
 $query = mysqli_query($conn, $sql);
 
 
-
+// Site Details
+$sql4 = "SELECT * FROM site_settings";
+$query4 = mysqli_query($conn, $sql4);
+$results4 = mysqli_fetch_array($query4);
+$siteName = $results4['site_name'];
 
 ?>
 
@@ -30,7 +34,7 @@ $query = mysqli_query($conn, $sql);
     <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../../">VTU</a>
+                <a class="navbar-brand" href="../../"><?=$siteName?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -58,6 +62,9 @@ $query = mysqli_query($conn, $sql);
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../site">Site settings </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../vtu">vtu settings </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
@@ -99,7 +106,7 @@ $query = mysqli_query($conn, $sql);
                             <td>' . $name . '</td>
                             <td>' . $email . '</td>
                             <td>NGN ' . $balance . '</td>
-                            <td><a class=" btn btn-primary" href="./Details.php?id='.$id.'">View Details</a></td>
+                            <td><a class=" btn btn-primary" href="./Details.php?id=' . $id . '">View Details</a></td>
                         </tr>
                            ');
                         }

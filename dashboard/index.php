@@ -17,19 +17,25 @@ if ($result > 0) {
 
 
 // deposits
-$sql = "SELECT * FROM deposit  WHERE id = '$id' ORDER BY time DESC limit 5";
+$sql = "SELECT * FROM deposit WHERE id = '$id' ORDER BY time DESC limit 5";
 $query = mysqli_query($conn, $sql);
 $results = mysqli_num_rows($query);
 
 // transactions
-$sql2 = "SELECT * FROM transactions  WHERE id = '$id' ORDER BY time DESC limit 5";
+$sql2 = "SELECT * FROM transactions WHERE id = '$id' ORDER BY time DESC limit 5";
 $query2 = mysqli_query($conn, $sql2);
 $results2 = mysqli_num_rows($query2);
 
 // pending deposits
-$sql3 = "SELECT * FROM manual_deposits where id = $id";
+$sql3 = "SELECT * FROM manual_deposits where id = $id ORDER BY time DESC ";
 $query3 = mysqli_query($conn, $sql3);
 $results3 = mysqli_num_rows($query3);
+
+// site details
+$sql4 = "SELECT * FROM site_settings";
+$query4 = mysqli_query($conn, $sql4);
+$results4 = mysqli_fetch_array($query4);
+$siteName = $results4['site_name'];
 
 ?>
 
@@ -50,7 +56,7 @@ $results3 = mysqli_num_rows($query3);
     <section class="section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../">VTU</a>
+                <a class="navbar-brand" href="../"><?=$siteName?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -79,19 +85,19 @@ $results3 = mysqli_num_rows($query3);
     <!-- Dashboard -->
     <section class="container-fluid py-5 h bg" id="dash">
         <div class="container px-3 text-dark enclose bg-light">
-            <div class="d-sm-flex justify-content-center gap-4 py-5 text-center">
+            <div class="d-md-flex justify-content-center gap-4 py-5 text-center">
                 <!-- account balance -->
-                <div class="col-sm-3 section cardcontainer">
+                <div class="col-md-3 section cardcontainer">
                     <h2 class="ml-auto">Account Balance</h2>
                     <h3>NGN <?= $balance ?></h3>
                 </div>
                 <!-- Deposite -->
-                <div class="col-sm-4 section cardcontainer">
+                <div class="col-md-4 section cardcontainer">
                     <h2 class="ml-auto">Deposit</h2>
                     <h3 class=""><a class=" w-50 btn getStarted" href="../deposit/">Add funds</a> </h3>
                 </div>
                 <!-- purchase -->
-                <div class="col-sm-3 section cardcontainer">
+                <div class="col-md-3 section cardcontainer">
                     <h2 class="ml-auto">Perform a Tranaction</h2>
                     <h3 class=""><a class=" w-50 btn getStarted" href="../services/">Make purchase</a> </h3>
                 </div>
@@ -108,16 +114,23 @@ $results3 = mysqli_num_rows($query3);
 
 
                         while ($res2 = mysqli_fetch_assoc($query2)) {
-
+                            $trans_id = $res2['trans_id'];
                             $amount2 = $res2['amount'];
+                            $plan = $res2['plan_name'];
+                            $network = $res2['network'];
                             $status2 = $res2['status'];
-                            echo ('<div class="d-flex flex-wrap text-dark">');
-                            echo ('<div class="col-sm-6">');
-                            echo ('<h6>Account funding</h6>');
+                            echo ('<div class="d-flex flex-wrap cardcontainer2 mb-3 p-2 text-dark">');
+                            echo ('<div class="col-6">');
+                            echo ('<h6>Account Transaction</h6>');
+                            echo ('<p>Newtork: <span>' . $network . ' </span></p>');
+                            echo ('<p>Plan: <span>' . $plan . ' </span></p>');
+                            echo ('<p >Transaction Id: <span>' . $trans_id . ' </span></p>');
                             echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
                             echo ('</div>');
-                            echo ('<div class="col-sm-6">');
-                            echo ('<h6 class="text-end">NGN ' . $amount2 . '</h6>');
+                            echo ('<div class="col-6 text-end">');
+                            echo ('<h5 >Amount</h5>');
+                            echo ('<h6 >NGN ' . $amount2 . '</h6>');
+                            echo ('<a class="btn btn-primary" href="../transaction/success.php?id='.$trans_id.'">Details</a>');
                             echo ('</div>');
                             echo ('</div>');
                         }
@@ -138,15 +151,17 @@ $results3 = mysqli_num_rows($query3);
 
 
                         while ($res = mysqli_fetch_assoc($query)) {
-
+                            $trans_id = $res['transaction_id'];
                             $amount = $res['amount'];
                             $status = $res['status'];
-                            echo ('<div class="d-flex flex-wrap text-dark">');
-                            echo ('<div class="col-sm-6">');
+                            echo ('<div class="d-flex cardcontainer2 mb-3 p-2 flex-wrap text-dark">');
+                            echo ('<div class="col-6">');
                             echo ('<h6>Account funding</h6>');
+                            echo ('<p >Transaction Id: ' . $trans_id . '</p>');
                             echo ('<p>Tranaction status: <span>' . $status . ' </span></p>');
                             echo ('</div>');
-                            echo ('<div class="col-sm-6">');
+                            echo ('<div class="col-6">');
+                            echo ('<h5 class="text-end">Amount</h5>');
                             echo ('<h6 class="text-end">NGN ' . $amount . '</h6>');
                             echo ('</div>');
                             echo ('</div>');
@@ -160,7 +175,7 @@ $results3 = mysqli_num_rows($query3);
                 </div>
 
                 <div class=" col-sm-5  cardcontainer ">
-                    <!-- Transactions -->
+                    <!-- Pending Proof -->
                     <h3 class="text-center">Pending Deposits</h3>
 
                     <?php
@@ -177,14 +192,15 @@ $results3 = mysqli_num_rows($query3);
                             $amount = $result['amo'];
                             $depositors_name = $result['depositor'];
                             echo ('
-                    <div class="d-flex mb-3 ps-3 pt-3  text-dark">
-                        <div class="col-sm-5">
+                    <div class="d-flex mb-2 p-3 cardcontainer2 text-dark">
+                        <div class="col-6">
                             <h6>A pending proof</h6>
-                            <p>From: <span>' . $email . '</span> </p>
+                            
                             <p>Bank Name: <span>' . $depositors_name . '</span> </p>
                             <p>At: <span>' . $time . '</span> </p>
                         </div>
-                        <div class="col-sm-6 text-end">
+                        <div class="col-6 text-end">
+                        
                             <h6 class="">NGN ' . $amount . '</h6>
                         </div>
                     </div>

@@ -40,15 +40,21 @@ while ($ress = mysqli_fetch_array($Customers_balance)) {
 
 // number of users
 $users = "SELECT * from users";
-$exc = mysqli_query($conn,$users);
+$exc = mysqli_query($conn, $users);
 $return = mysqli_num_rows($exc);
 
 // API Query for balance
+// API key
+
+$sql1 = "SELECT * FROM vtu_api";
+$query1 = mysqli_query($conn, $sql1);
+$results = mysqli_fetch_array($query1);
+$api = $results['API_key'];
 
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://halleldatang.com/api/user/',
+    CURLOPT_URL => 'https://legitdata.com.ng/api/user/',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -57,7 +63,7 @@ curl_setopt_array($curl, array(
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'GET',
     CURLOPT_HTTPHEADER => array(
-        'Authorization: Token b5b7fd471655bba431c9b9a0084a2aae7cf52b1f',
+        'Authorization: Token '.$api.'',
         'Content-Type: application/json'
     ),
 ));
@@ -78,7 +84,11 @@ if ($response) {
     </p>';
 }
 
-
+// Site Details
+$sql4 = "SELECT * FROM site_settings";
+$query4 = mysqli_query($conn, $sql4);
+$results4 = mysqli_fetch_array($query4);
+$siteName = $results4['site_name'];
 
 
 ?>
@@ -100,7 +110,7 @@ if ($response) {
     <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../../">VTU</a>
+                <a class="navbar-brand" href="../../"><?=$siteName?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -130,6 +140,9 @@ if ($response) {
                                 <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="../vtu">vtu settings </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
                             </li>
 
@@ -146,17 +159,17 @@ if ($response) {
                 <!-- account balance -->
                 <div class="col-sm-3 section cardcontainer">
                     <h2 class="ml-auto">API Balance</h2>
-                    <h3>NGN <?=$balance?></h3>
+                    <h3>NGN <?= $balance ?></h3>
                 </div>
                 <!-- Deposite -->
                 <div class="col-sm-4 section cardcontainer">
                     <h2 class="ml-auto">Number of users</h2>
-                    <h3 class=""><?=$return?> </h3>
+                    <h3 class=""><?= $return ?> </h3>
                 </div>
                 <!-- purchase -->
                 <div class="col-sm-4 section cardcontainer">
                     <h2 class="ml-auto">Customers Balance</h2>
-                    <h3 class="">NGN <?= $Cbalance?></h3>
+                    <h3 class="">NGN <?= $Cbalance ?></h3>
                 </div>
             </div>
         </div>
@@ -170,28 +183,28 @@ if ($response) {
 
                 <?php
                 if ($results) {
-                    echo ( '
+                    echo ('
                     
-                <div class="col-sm-10 px-3 mx-auto py-3   ">
+                <div class=" px-3 mx-auto py-3   ">
                      ');
 
                     while ($result = mysqli_fetch_assoc($query)) {
-                    $id = $result['trans_id'];
-                    $email = $result['email'];
-                    $time = $result['time'];
-                    $amount = $result['amo'];
-                    $depositors_name = $result['depositor'];
-                    echo ('
-                    <div class="d-flex mb-3 ps-3 pt-3 cardcontainer text-dark">
-                        <div class="col-sm-5">
+                        $id = $result['trans_id'];
+                        $email = $result['email'];
+                        $time = $result['time'];
+                        $amount = $result['amo'];
+                        $depositors_name = $result['depositor'];
+                        echo ('
+                    <div class="d-flex mb-3 p-3 cardcontainer text-dark">
+                        <div class="col-6">
                             <h6>A pending proof</h6>
-                            <p>From: <span>' . $email .'</span> </p>
+                            <p>From: <span>' . $email . '</span> </p>
                             <p>Bank Name: <span>' . $depositors_name . '</span> </p>
                             <p>At: <span>' . $time . '</span> </p>
                         </div>
-                        <div class="col-sm-6 text-end">
+                        <div class="col-6 text-end">
                             <h6 class="">NGN ' . $amount . '</h6>
-                            <a class="btn mb-2 btn-primary" href="./approve/approve.php?id=' . $id .'">Approve</a>
+                            <a class="btn mb-2 btn-primary" href="./approve/approve.php?id=' . $id . '">Approve</a>
                             <br>
                             <a class="btn mb-2 btn-danger" href="./reject/reject.php?id=' . $id . '">Reject</a>
 
@@ -199,14 +212,14 @@ if ($response) {
                     </div>
                     ');
                     }
-                }else {
+                } else {
                     echo ('
                 <p class="text-center text-dark mt-3"> No pending transaction </p>
                 ');
-                    }
-                    ?>
-                </div>
+                }
+                ?>
             </div>
+        </div>
         </div>
         <!-- Histories -->
         <div class="trans container py-4 my-4 bg-light section cardcontainer">
@@ -218,23 +231,29 @@ if ($response) {
 
 
                     while ($res2 = mysqli_fetch_assoc($query2)) {
-
+                        $trans_id = $res2['trans_id'];
                         $amount2 = $res2['amount'];
+                        $plan = $res2['plan_name'];
+                        $network = $res2['network'];
                         $status2 = $res2['status'];
-                        echo ('<div class="d-flex flex-wrap text-dark">');
-                        echo ('<div class="col-sm-6">');
-                        echo ('<h6>Account funding</h6>');
+                        echo ('<div class="d-flex flex-wrap cardcontainer mb-3 p-3 text-dark">');
+                        echo ('<div class="col-6">');
+                        echo ('<h6>Account Transaction</h6>');
+                        echo ('<p>Newtork: <span>' . $network . ' </span></p>');
+                        echo ('<p>Plan: <span>' . $plan . ' </span></p>');
                         echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
                         echo ('</div>');
-                        echo ('<div class="col-sm-6">');
-                        echo ('<h6 class="text-end">NGN ' . $amount2 . '</h6>');
+                        echo ('<div class="col-6 text-end">');
+                        echo ('<h5 >Amount</h5>');
+                        echo ('<h6 >NGN ' . $amount2 . '</h6>');
+                        echo ('<a class="btn btn-primary" target="blank" href="../../transaction/success.php?id=' . $trans_id . '">Details</a>');
                         echo ('</div>');
                         echo ('</div>');
                     }
                 } else {
                     echo ('
-                <p class="text-center text-dark mt-3"> No Transaction has been made</p>
-                ');
+                                <p class="text-center text-dark mt-3"> No Transaction has been made</p>
+                            ');
                 }
                 ?>
             </div>

@@ -13,3 +13,7 @@ function show(e) {
         acc.classList.add('show');
     }
 }
+
+
+
+

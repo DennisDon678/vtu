@@ -94,13 +94,13 @@ if (isset($_GET['id'])) {
                     <div class="col-md-5 p-3 cardcontainer">
                         <h5>Registration Details</h5>
                         <div class="name mb-2 ps-3">
-                            <h6>Users Fullname: <span><?= $fullname ?></span></h6>
+                            <h6> Fullname: <span><?= $fullname ?></span></h6>
                         </div>
                         <div class="username mb-2 ps-3">
-                            <h6>Users username: <span><?= $username ?></span></h6>
+                            <h6> username: <span><?= $username ?></span></h6>
                         </div>
                         <div class="email mb-2 ps-3">
-                            <h6>Users email: <span><?= $email ?></span></h6>
+                            <h6>User's Email: <span><?= $email ?></span></h6>
                         </div>
                         <div class="registered_at mb-2 ps-3">
                             <h6>Registration Date: <span><?= $registered_at ?></span></h6>
@@ -110,7 +110,7 @@ if (isset($_GET['id'])) {
                     <div class="col-md-5 p-3 cardcontainer">
                         <h5>Finacial Details</h5>
                         <div class="balance mb-3 ps-3">
-                            <h6>Users Account Balance: <span> NGN <?= $balance ?></span></h6>
+                            <h6> Account Balance: <span> NGN <?= $balance ?></span></h6>
                         </div>
                         <h5>Finacial Operations</h5>
                         <p class="alert alert-success">This will alter the users transaction details.</p>

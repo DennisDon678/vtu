@@ -5,6 +5,18 @@ if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
 
+// api key
+$sql = "SELECT * FROM vtu_api";
+$query = mysqli_query($conn, $sql);
+$results = mysqli_fetch_array($query);
+$api = $results['API_key'];
+
+// site details
+$sql2 = "SELECT * FROM site_settings";
+$query1 = mysqli_query($conn, $sql2);
+$results1 = mysqli_fetch_array($query1);
+$siteName = $results1['site_name'];
+$siteDescription = $results1['site_description'];
 
 
 ?>
@@ -26,7 +38,7 @@ if (!isset($_SESSION['admin'])) {
     <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../../">VTU</a>
+                <a class="navbar-brand" href="../../"><?=$siteName?><</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -56,6 +68,9 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="../vtu">vtu settings </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
                             </li>
 
@@ -74,23 +89,30 @@ if (!isset($_SESSION['admin'])) {
             <div class="notice">
                 <p class="alert alert-success">This where you configure the name of your website and the descriptions, add details that would be nice to your users.</p>
             </div>
-            <form class="text-dark" action="" method="post">
+            <form class="text-dark" action="../../app/forms/site/site.php" method="post">
                 <div class="form mb-3">
                     <label for="fullname">Site Name</label>
-                    <input class="form-control" type="text" name="site_name" id="" required>
+                    <input class="form-control" value="<?= $siteName ?>" type="text" name="site_name" id="" required>
                 </div>
 
                 <div class="form mb-3">
                     <label for="fullname">Site Description</label>
-                    <textarea class="form-control" type="text" name="description" id="" required></textarea>
+                    <textarea class="form-control" type="text" name="description" id="" required><?= $siteDescription ?></textarea>
                 </div>
 
+                <div class="form justify-content-center text-dark mb-3">
+                    <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update">
+                </div>
+            </form>
+
+
+            <h3 class=" text-center">API key set-up</h3>
+
+            <form class="text-dark" action="../../app/forms/API/api.php" method="post">
                 <div class="form mb-3">
-                    <label for="fullname">Site favicon</label>
-                    <input class="form-control" type="file" name="favicon" id="" required>
-
+                    <label for="fullname">API Key</label>
+                    <input class="form-control" value="<?= $api ?>" type="text" name="api_key" id="" required>
                 </div>
-
                 <div class="form justify-content-center text-dark mb-3">
                     <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update">
                 </div>

@@ -6,20 +6,17 @@ if (isset($_POST['submit'])) {
     $user = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM admin WHERE username= '$user' && password= '$password'  ";
+    $sql = "SELECT * FROM admin WHERE username= '$user' ";
     $query = mysqli_query($conn, $sql);
+    $result = mysqli_fetch_array($query);
+    $userpass = $result['password'];
 
-    if ($query) {
-        $result = mysqli_fetch_array($query);
-        if ($result) {
-            $_SESSION['admin'] = $result['username'];
-            header('location: ../../admin/dashboard');
-        } else {
-            echo ('errror');
-        }
+    if ($result &&  $pass == password_verify($password, $userpass)) {
+        $_SESSION['admin'] = $result['username'];
+        header('location: ../../admin/dashboard');
     } else {
-        echo ('errror');
+        $msg = 'Invalid username or password';
+        $msg = urlencode($msg);
+        header('location: ../../admin/index.php?msg=' . $msg . '');
     }
-} else {
-    echo ('error');
 }

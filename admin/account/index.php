@@ -5,7 +5,21 @@ if (!isset($_SESSION['admin'])) {
     header('location: ../');
 }
 
+$sql = "SELECT * FROM admin ";
+$query = mysqli_query($conn, $sql);
+$result = mysqli_fetch_array($query);
+$fullname = $result['fullname'];
+$username = $result['username'];
+$email = $result['email'];
+
+// Site Details
+$sql4 = "SELECT * FROM site_settings";
+$query4 = mysqli_query($conn, $sql4);
+$results4 = mysqli_fetch_array($query4);
+$siteName = $results4['site_name'];
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -24,7 +38,7 @@ if (!isset($_SESSION['admin'])) {
     <section class=" section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../../">VTU</a>
+                <a class="navbar-brand" href="../../"><?=$siteName?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -54,6 +68,9 @@ if (!isset($_SESSION['admin'])) {
                                 <a class="nav-link" href="../site">Site settings </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="../vtu">vtu settings </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="../logout.php?action=logout">Log out</a>
                             </li>
 
@@ -66,33 +83,46 @@ if (!isset($_SESSION['admin'])) {
     <!-- Account -->
     <section class="container-fluid mt-5 py-5 h" id="acc">
         <div class="container py-4 section bg-light enclose">
-            <h3 class=" text-center">Update Account</h3>
-            <form class="text-dark" action="" method="post">
-                <div class="form mb-3">
-                    <label for="fullname">Modify your full name</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
+            <div class="notice">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
-                <div class="form mb-3">
-                    <label for="fullname">Modify your username</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
+                    Your username and password are details to login into your dashboard, be sure to remember them always.
                 </div>
+                <h3 class=" text-center">Update Account</h3>
+                <form class="text-dark" action="../../app/forms/admin_update.php" method="post">
+                    <div class="form mb-3">
+                        <label for="fullname">Modify your full name</label>
+                        <input class="form-control" value="<?= $fullname ?>" type="text" name="fullname" id="" required>
+                    </div>
 
-                <div class="form mb-3">
-                    <label for="fullname">Modify your email</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
+                    <div class="form mb-3">
+                        <label for="username">Modify your username</label>
+                        <input class="form-control" value="<?= $username ?>" type="text" name="username" id="" required>
+                    </div>
 
-                <div class="form mb-3">
-                    <label for="fullname">Modify your password</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
+                    <div class="form mb-3">
+                        <label for="email">Modify your email</label>
+                        <input class="form-control" value="<?= $email ?>" type="text" name="email" id="" required>
+                    </div>
+                    <div class="notice">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
-                <div class="form justify-content-center text-dark mb-3">
-                    <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update" id="">
-                </div>
-            </form>
-        </div>
+                            When password is left blank, the original password will be retained but once filled, be sure to remember the details!
+                        </div>
+
+                    </div>
+                    <div class="form mb-3">
+                        <label for="password">Modify your password</label>
+                        <input class="form-control" type="text" name="password" placeholder="Enter a password that you would remember." id="" >
+                    </div>
+
+                    <div class="form justify-content-center text-dark mb-3">
+                        <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update" id="">
+                    </div>
+                </form>
+            </div>
 
     </section>
 

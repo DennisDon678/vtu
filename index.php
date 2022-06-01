@@ -1,6 +1,33 @@
 <?php
 session_start();
 include('./connection/database.php');
+
+$sql = "SELECT * FROM price_list where id = 1";
+$query = mysqli_query($conn, $sql);
+$result = mysqli_fetch_array($query);
+
+$mtnsme = $result['mtn'];
+$airtelsme = $result['airtel'];
+$g1 = $result['g1'];
+$g2 = $result['g2'];
+$g3 = $result['g3'];
+$g4 = $result['g4'];
+$g5 = $result['g5'];
+$g6 = $result['g6'];
+$m1 = $result['m1'];
+$m2 = $result['m2'];
+$m3 = $result['m3'];
+$m4 = $result['m4'];
+$m5 = $result['m5'];
+$m6 = $result['m6'];
+
+// site details
+$sql2 = "SELECT * FROM site_settings";
+$query1 = mysqli_query($conn, $sql2);
+$results1 = mysqli_fetch_array($query1);
+$siteName = $results1['site_name'];
+$siteDescription = $results1['site_description'];
+
 if (!isset($_SESSION['user'])) {
 
 ?>
@@ -23,7 +50,7 @@ if (!isset($_SESSION['user'])) {
         <!-- nav bar -->
         <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="./">VTU</a>
+                <a class="navbar-brand" href="./"><?= $siteName ?></a>
                 <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -54,11 +81,11 @@ if (!isset($_SESSION['user'])) {
             <div class="container-fluid  mb-0 px-5 d-sm-flex" id="hero">
                 <div class="content textContent text-center align-self-center col-md-7">
                     <h1 class="py-3">
-                        Welcome to vtu platform
+                        Welcome to <?= $siteName ?>
                     </h1>
 
                     <p class="mb-3">
-                        At vtu platform, you get access to all sort of vitrual top up services such as airtime recharge, data subscription, TV subscription and many more.
+                        <?= $siteDescription ?>
                     </p>
 
                     <div class="botton justify-content-center mb-2  gap-4 d-flex">
@@ -143,8 +170,8 @@ if (!isset($_SESSION['user'])) {
                 <h3 class="pb-2 pt-3 section" id="mission">Our Mission</h3>
                 <div class="d-sm-flex">
                     <div class="col-sm-6">
-                        <div class="image">
-                            <img class="img-fluid" src="./assets/images/phone.svg" alt="" srcset="">
+                        <div class="image mission">
+                            <img class="img-fluid missionImg" src="./assets/images/phone.svg" alt="" srcset="">
                         </div>
 
                     </div>
@@ -177,23 +204,23 @@ if (!isset($_SESSION['user'])) {
                             <tbody>
                                 <tr>
                                     <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td><?= $mtnsme * 1 ?></td>
                                 </tr>
                                 <tr>
                                     <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td><?= $mtnsme * 2 ?></td>
                                 </tr>
                                 <tr>
                                     <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td><?= $mtnsme * 3 ?></td>
                                 </tr>
                                 <tr>
                                     <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td><?= $mtnsme * 4 ?></td>
                                 </tr>
                                 <tr>
                                     <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td><?= $mtnsme * 5 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -210,23 +237,23 @@ if (!isset($_SESSION['user'])) {
                             <tbody>
                                 <tr>
                                     <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td><?= $airtelsme * 1 ?></td>
                                 </tr>
                                 <tr>
                                     <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td><?= $airtelsme * 2 ?></td>
                                 </tr>
                                 <tr>
                                     <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td><?= $airtelsme * 3 ?></td>
                                 </tr>
                                 <tr>
                                     <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td><?= $airtelsme * 4 ?></td>
                                 </tr>
                                 <tr>
                                     <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td><?= $airtelsme * 5 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -242,24 +269,28 @@ if (!isset($_SESSION['user'])) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td>GLO Gifting 1.05GB</td>
+                                    <td><?= $g1 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td>GLO Gifting 2.9GB</td>
+                                    <td><?= $g2 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td>GLO Gifting 4.1GB</td>
+                                    <td><?= $g3 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td>GLO Gifting 5.8GB</td>
+                                    <td><?= $g4 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td>GLO Gifting 7.7GB</td>
+                                    <td><?= $g5 ?></td>
+                                </tr>
+                                <tr>
+                                    <td>GLO Gifting 10.0GB</td>
+                                    <td><?= $g6 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -275,24 +306,28 @@ if (!isset($_SESSION['user'])) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td>9mobil Gifting 500MB</td>
+                                    <td><?= $m1 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td>9mobil Gifting 1.5GB</td>
+                                    <td><?= $m2 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td>9mobil Gifting 2.0GB</td>
+                                    <td><?= $m3 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td>9mobil Gifting 3.0GB</td>
+                                    <td><?= $m4 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td>9mobil Gifting 4.5GB</td>
+                                    <td><?= $m5 ?></td>
+                                </tr>
+                                <tr>
+                                    <td>9mobil Gifting 11.0GB</td>
+                                    <td><?= $m6 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -310,7 +345,7 @@ if (!isset($_SESSION['user'])) {
                     <div class="text-center align-self-center col-sm-4">
                         <div class="brand">
                             <h2>
-                                VTU
+                                <?= $siteName ?>
                             </h2>
                             <p>
                                 Your number one platform for all vtu services. Stay safe, stay tuned.
@@ -359,22 +394,13 @@ if (!isset($_SESSION['user'])) {
             </div>
         </section>
 
-
-
-
-
-
-
-
-
-
         <script src="./assets/bootstrap/js/bootstrap.js"></script>
     </body>
 
     </html>
 
 
-    
+
     <!-- LOGGED IN USERS -->
 
 <?php
@@ -398,7 +424,7 @@ if (!isset($_SESSION['user'])) {
         <!-- nav bar -->
         <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="./">VTU</a>
+                <a class="navbar-brand" href="./"><?= $siteName ?></a>
                 <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -430,11 +456,11 @@ if (!isset($_SESSION['user'])) {
             <div class="container-fluid  mb-0 px-5 d-sm-flex" id="hero">
                 <div class="content textContent text-center align-self-center col-md-7">
                     <h1 class="py-3">
-                        Welcome to vtu platform
+                        Welcome to <?= $siteName ?>
                     </h1>
 
                     <p class="mb-3">
-                        At vtu platform, you get access to all sort of vitrual top up services such as airtime recharge, data subscription, TV subscription and many more.
+                        <?= $siteDescription ?>
                     </p>
 
                     <div class="botton justify-content-center mb-2  gap-4 d-flex">
@@ -519,8 +545,8 @@ if (!isset($_SESSION['user'])) {
                 <h3 class="pb-2 pt-3 section" id="mission">Our Mission</h3>
                 <div class="d-sm-flex">
                     <div class="col-sm-6">
-                        <div class="image">
-                            <img class="img-fluid" src="./assets/images/phone.svg" alt="" srcset="">
+                        <div class="image mission">
+                            <img class="img-fluid missionImg" src="./assets/images/phone.svg" alt="" srcset="">
                         </div>
 
                     </div>
@@ -553,23 +579,23 @@ if (!isset($_SESSION['user'])) {
                             <tbody>
                                 <tr>
                                     <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td><?= $mtnsme * 1 ?></td>
                                 </tr>
                                 <tr>
                                     <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td><?= $mtnsme * 2 ?></td>
                                 </tr>
                                 <tr>
                                     <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td><?= $mtnsme * 3 ?></td>
                                 </tr>
                                 <tr>
                                     <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td><?= $mtnsme * 4 ?></td>
                                 </tr>
                                 <tr>
                                     <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td><?= $mtnsme * 5 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -586,23 +612,23 @@ if (!isset($_SESSION['user'])) {
                             <tbody>
                                 <tr>
                                     <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td><?= $airtelsme * 1 ?></td>
                                 </tr>
                                 <tr>
                                     <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td><?= $airtelsme * 2 ?></td>
                                 </tr>
                                 <tr>
                                     <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td><?= $airtelsme * 3 ?></td>
                                 </tr>
                                 <tr>
                                     <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td><?= $airtelsme * 4 ?></td>
                                 </tr>
                                 <tr>
                                     <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td><?= $airtelsme * 5 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -618,24 +644,28 @@ if (!isset($_SESSION['user'])) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td>GLO Gifting 1.05GB</td>
+                                    <td><?= $g1 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td>GLO Gifting 2.9GB</td>
+                                    <td><?= $g2 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td>GLO Gifting 4.1GB</td>
+                                    <td><?= $g3 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td>GLO Gifting 5.8GB</td>
+                                    <td><?= $g4 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td>GLO Gifting 7.7GB</td>
+                                    <td><?= $g5 ?></td>
+                                </tr>
+                                <tr>
+                                    <td>GLO Gifting 10.0GB</td>
+                                    <td><?= $g6 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -651,24 +681,28 @@ if (!isset($_SESSION['user'])) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1GB SME</td>
-                                    <td>250</td>
+                                    <td>9mobil Gifting 500MB</td>
+                                    <td><?= $m1 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>2GB SME</td>
-                                    <td>500</td>
+                                    <td>9mobil Gifting 1.5GB</td>
+                                    <td><?= $m2 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>3GB SME</td>
-                                    <td>750</td>
+                                    <td>9mobil Gifting 2.0GB</td>
+                                    <td><?= $m3 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>4GB SME</td>
-                                    <td>1000</td>
+                                    <td>9mobil Gifting 3.0GB</td>
+                                    <td><?= $m4 ?></td>
                                 </tr>
                                 <tr>
-                                    <td>5GB SME</td>
-                                    <td>1250</td>
+                                    <td>9mobil Gifting 4.5GB</td>
+                                    <td><?= $m5 ?></td>
+                                </tr>
+                                <tr>
+                                    <td>9mobil Gifting 11.0GB</td>
+                                    <td><?= $m6 ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -738,11 +772,6 @@ if (!isset($_SESSION['user'])) {
     </body>
 
     </html>
-
-
-
-
-
 
 
 <?php

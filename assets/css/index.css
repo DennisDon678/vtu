@@ -1,155 +1,199 @@
+body {
+  min-height: 100vh;
+}
+
+.err404 {
+  min-height: 60vh;
+  width: 70vw;
+}
+
+.err404 .text h1 {
+  font-size: 50px;
+  text-transform:uppercase ;
+  color: gray;
+}
+
+.err404 .text p {
+  color: gray;
+  font-size: 20px;
+}
+
 #hero {
-    background: url("../images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
+  background: url("../images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
 }
 
 .image img {
-    padding: 0;
-    height: 100%;
-    width: 100%;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .getStarted,
 .getStartedNav {
-    background-color: brown;
-    color: white;
-    border-radius: 10px;
-    width: 100%;
-    transition: ease-in .5s;
+  background-color: brown;
+  color: white;
+  border-radius: 10px;
+  width: 100%;
+  transition: ease-in 0.5s;
 }
 .getStartedNav:hover {
-    background: transparent;
-    border: 1px solid brown;
-    border-radius: 10px;
-    color: black;
+  background: transparent;
+  border: 1px solid brown;
+  border-radius: 10px;
+  color: black;
 }
 
-
 .getStarted:hover {
-    background: transparent;
-    border: 1px solid brown;
-    border-radius: 10px;
+  background: transparent;
+  border: 1px solid brown;
+  border-radius: 10px;
 }
 
 .login {
-    border: 1px solid brown;
-    border-radius: 10px;
-    transition: ease-in .5s;
+  border: 1px solid brown;
+  border-radius: 10px;
+  transition: ease-in 0.5s;
 }
 
 li {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .h {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 
 .show {
-    display: block;
+  display: block;
 }
 
 .login:hover {
-    background-color: brown;
-    color: white;
-    border-radius: 10px;
+  background-color: brown;
+  color: white;
+  border-radius: 10px;
 }
 
 .cardcontainer {
-    border: 1px solid brown;
-    border-radius: 10px;
-    
+  border: 1px solid brown;
+  border-radius: 10px;
+}
+
+.cardcontainer2 {
+  border: 1px solid rgba(68, 108, 211, 0.994);
+  border-radius: 10px;
 }
 
 .bg {
-    background-color: brown;
-    color: white;
+  background-color: brown;
+  color: white;
 }
 
 .enclose {
-    border-radius: 10px;
-
+  border-radius: 10px;
 }
 
 .section {
-    color: brown;
+  color: brown;
 }
 
 .cardImage {
-    width: 80px;
-    margin: auto;
+  width: 80px;
+  margin: auto;
 }
 
 input {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 textarea {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 span {
-    color: blue;
+  color: blue;
 }
 
 .adlog {
-    background-color: blue;
-    color: white;
-    width: 80%;
-    border-radius: 10px;
+  background-color: blue;
+  color: white;
+  width: 80%;
+  border-radius: 10px;
 }
 
 .admin {
-    background-color: blue;
-    color: white;
+  background-color: blue;
+  color: white;
 }
 
 .adlog:hover {
-    background-color: rgb(139, 139, 179);
-    color: white;
-    width: 80%;
-    border-radius: 10px;
+  background-color: rgb(139, 139, 179);
+  color: white;
+  width: 80%;
+  border-radius: 10px;
 }
 
 ul {
-    list-style-type: none;
-    padding: none;
-
+  list-style-type: none;
+  padding: none;
 }
 
 table * {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 li {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 li a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
+.mobile {
+  margin: auto;
+  width: 10vw;
+  height: 10vw;
+}
 
+.receipt {
+    margin: auto;
+    width: 80%;
+}
 
+.item {
+    background-color: rgba(211, 211, 211, 0.15);
+    padding: 8px;
+    border-radius: 10px;
+}
 
+.item .title {
+    border-bottom: 1px solid rgba(212, 168, 168, 0.548);
+}
 
-
-
-
-
+.item .field {
+    background-color: white;
+    margin-top: 6px;
+}
 
 @media screen and (max-width: 768px) {
-    .cardcontainer {
-        border: 1px solid brown;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        width: 100%;
-    }
+  .cardcontainer {
+    border: 1px solid brown;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .mobile {
+    width: 20vw;
+    height: 20vw;
+  }
 }
+

@@ -12,29 +12,51 @@ if (isset($_POST['submit']) && isset($_POST['checkbox'])) {
     $balance = 0;
 
 
-    if ($fullname && $username && $email && $password && $password_verify) {
+            if ($fullname && $username && $email && $password && $password_verify) {
+                    $sql = "SELECT * from users where username = '$username'";
+                    $query = mysqli_query($conn, $sql);
+                    $result = mysqli_fetch_array($query);
+                   
+                
+                        if (!$result) {
+                                    $sql2 = "SELECT * from users where email = '$email'";
+                                    $query2 = mysqli_query($conn, $sql2);
+                                    $result2 = mysqli_fetch_array($query2);
 
-        if ($password === $password_verify) {
-            // $password=hash('md5',$password, true);
-            $sql = "INSERT INTO users ( fullname, username, email, password, balance)
-        
-                                 VALUES ( '$fullname', '$username', '$email', '$password', $balance);";
-            $query = mysqli_query($conn, $sql);
-            $_SESSION['user'] = $username;
-           if ($query) {
-               header('location: ../../dashboard');
-           } else{
-             
-           }
-        } else {
-            $msg = 'Password needs to be the same';
-            header('location: ../../register/index.php?msg=' . $msg . '');
-        }
-    } else {
-        $msg = 'Form field cannot be empty';
-        $msg = urlencode($msg);
-        header('location: ../../register/index.php?msg=' . $msg . '');
-    }
+                                    if (!$result2) {
+                                                if ($password === $password_verify) {
+                                                    $password = hash('md5', $password, true);
+                                                    $sql3 = "INSERT INTO users ( fullname, username, email, password, balance)
+                                            
+                                                                    VALUES ( '$fullname', '$username', '$email', '$password', $balance);";
+                                                    $query3 = mysqli_query($conn, $sql3);
+                                                    $_SESSION['user'] = $username;
+                                                            if ($query) {
+                                                                header('location: ../../dashboard');
+                                                            } else {
+                                                                }
+                                                } else {
+                                                    $msg = 'Password needs to be the same';
+                                                    header('location: ../../register/index.php?msg=' . $msg . '');
+                                                }
+                                    }else {
+                                            $msg = 'Email is already taken';
+                                            $msg = urlencode($msg);
+                                            header('location: ../../register/index.php?msg=' . $msg . '');
+                                         }
+                                    
+                            } else {
+                                $msg = 'Username is already taken';
+                                $msg = urlencode($msg);
+                                header('location: ../../register/index.php?msg=' . $msg . '');
+                            }
+                    
+            
+            } else {
+                $msg = 'Form field cannot be empty';
+                $msg = urlencode($msg);
+                header('location: ../../register/index.php?msg=' . $msg . '');
+            }
 } else {
     $msg = 'Agree to our terms and conditions';
     $msg = urlencode($msg);
