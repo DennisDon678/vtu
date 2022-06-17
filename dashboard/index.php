@@ -12,17 +12,20 @@ $query = mysqli_query($conn, $sql);
 $result = mysqli_fetch_assoc($query);
 if ($result > 0) {
     $id = $result['id'];
+    $fullname = $result['fullname'];
+    $username = $result['username'];
+    $email = $result['email'];
     $balance = $result['balance'];
 }
 
 
 // deposits
-$sql = "SELECT * FROM deposit WHERE id = '$id' ORDER BY time DESC limit 5";
+$sql = "SELECT * FROM deposit WHERE id = '$id' ORDER BY time DESC limit 3";
 $query = mysqli_query($conn, $sql);
 $results = mysqli_num_rows($query);
 
 // transactions
-$sql2 = "SELECT * FROM transactions WHERE id = '$id' ORDER BY time DESC limit 5";
+$sql2 = "SELECT * FROM transactions WHERE id = '$id' ORDER BY time DESC limit 3";
 $query2 = mysqli_query($conn, $sql2);
 $results2 = mysqli_num_rows($query2);
 
@@ -36,6 +39,13 @@ $sql4 = "SELECT * FROM site_settings";
 $query4 = mysqli_query($conn, $sql4);
 $results4 = mysqli_fetch_array($query4);
 $siteName = $results4['site_name'];
+
+// notification
+$notice_sql = "SELECT * FROM notification";
+$notice_query = mysqli_query($conn, $notice_sql);
+$notication = mysqli_fetch_array($notice_query);
+$title = $notication['title'];
+$message = $notication['message'];
 
 ?>
 
@@ -56,7 +66,7 @@ $siteName = $results4['site_name'];
     <section class="section mb-5" id="dashboard">
         <nav class="navbar navbar-light bg-light  fixed-top ">
             <div class="container">
-                <a class="navbar-brand" href="../"><?=$siteName?></a>
+                <a class="navbar-brand" href="../"><?= $siteName ?></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -67,8 +77,17 @@ $siteName = $results4['site_name'];
                     </div>
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li onclick="show(1)" class="nav-item">
-                                <a class="nav-link active" aria-current="page" data-bs-target="#dashboard">Dashboard</a>
+                            <li  class="nav-item">
+                                <a class="nav-link active" href="./" aria-current="page" data-bs-target="#dashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#transaction">Transactions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#deposit">Deposits</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../support">Contact support</a>
                             </li>
                             <li onclick="show(2)" class="nav-item">
                                 <a class="nav-link" data-bs-target="#account">Account</a>
@@ -85,6 +104,21 @@ $siteName = $results4['site_name'];
     <!-- Dashboard -->
     <section class="container-fluid py-5 h bg" id="dash">
         <div class="container px-3 text-dark enclose bg-light">
+
+            <?php
+            if (isset($_GET['msg'])) {
+                $msg = $_GET['msg'];
+               
+            ?>
+                <div class="msg pt-2 text-center ">
+                    <p class="alert alert-danger "><?= $msg ?></p>
+                </div>
+            <?php
+                
+            }
+            ?>
+
+
             <div class="d-md-flex justify-content-center gap-4 py-5 text-center">
                 <!-- account balance -->
                 <div class="col-md-3 section cardcontainer">
@@ -104,7 +138,7 @@ $siteName = $results4['site_name'];
             </div>
         </div>
         <!-- Histories -->
-        <div class="trans container py-4 my-4 bg-light section cardcontainer">
+        <div class="trans container py-4 my-4 bg-light section cardcontainer" id="transaction">
             <div class="d-sm-flex flex-wrap justify-content-center gap-4">
                 <!-- Transactions -->
                 <div class="col-sm-5 px-3 cardcontainer ">
@@ -121,16 +155,13 @@ $siteName = $results4['site_name'];
                             $status2 = $res2['status'];
                             echo ('<div class="d-flex flex-wrap cardcontainer2 mb-3 p-2 text-dark">');
                             echo ('<div class="col-6">');
-                            echo ('<h6>Account Transaction</h6>');
-                            echo ('<p>Newtork: <span>' . $network . ' </span></p>');
-                            echo ('<p>Plan: <span>' . $plan . ' </span></p>');
-                            echo ('<p >Transaction Id: <span>' . $trans_id . ' </span></p>');
+                            echo ('<h6>' . $network . ' ' . $plan . '</h6>');
                             echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
                             echo ('</div>');
                             echo ('<div class="col-6 text-end">');
                             echo ('<h5 >Amount</h5>');
                             echo ('<h6 >NGN ' . $amount2 . '</h6>');
-                            echo ('<a class="btn btn-primary" href="../transaction/success.php?id='.$trans_id.'">Details</a>');
+                            echo ('<a class="btn btn-primary" href="../transaction/success.php?id=' . $trans_id . '">Details</a>');
                             echo ('</div>');
                             echo ('</div>');
                         }
@@ -140,10 +171,14 @@ $siteName = $results4['site_name'];
                             ');
                     }
                     ?>
+
+                    <div class="more pb-3">
+                        <a class="btn btn-primary" href="../transaction/">All Transaction</a>
+                    </div>
                 </div>
 
                 <!-- Deposit -->
-                <div class="col-sm-5 px-3 cardcontainer">
+                <div class="col-sm-5 px-3 cardcontainer" id="deposit">
                     <h3 class="text-center">Deposit History</h3>
 
                     <?php
@@ -172,6 +207,9 @@ $siteName = $results4['site_name'];
                             ');
                     }
                     ?>
+                    <div class="more pb-3">
+                        <a class="btn btn-primary" href="../deposit/allDeposits.php">All Deposit</a>
+                    </div>
                 </div>
 
                 <div class=" col-sm-5  cardcontainer ">
@@ -222,31 +260,46 @@ $siteName = $results4['site_name'];
     <section class="container-fluid hide py-5 h bg" id="acc">
         <div class="container py-4 section bg-light enclose">
             <h3 class=" text-center">Update Account</h3>
-            <form class="text-dark" action="" method="post">
+            <form class="text-dark" action="../app/forms/account_update.php" method="post">
                 <div class="form mb-3">
                     <label for="fullname">Modify your full name</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
+                    <input class="form-control" value="<?= $fullname ?>" type="text" name="fullname" id="" required>
                 </div>
 
                 <div class="form mb-3">
-                    <label for="fullname">Modify your username</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
+                    <label for="username">Modify your username</label>
+                    <input class="form-control" value="<?= $username ?>" type="text" name="username" id="" required>
                 </div>
 
                 <div class="form mb-3">
-                    <label for="fullname">Modify your email</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
-                </div>
-
-                <div class="form mb-3">
-                    <label for="fullname">Modify your password</label>
-                    <input class="form-control" type="text" name="fullname" id="" required>
+                    <label for="email">Modify your email</label>
+                    <input class="form-control" value="<?= $email ?>" type="text" name="email" id="" required>
                 </div>
 
                 <div class="form justify-content-center text-dark mb-3">
-                    <input class="form-control w-50 btn getStarted" type="submit" name="fullname" value="Update" id="">
+                    <input class="form-control w-50 btn getStarted" type="submit" name="submit" value="Update" id="">
                 </div>
             </form>
+
+
+            <div class="pass">
+                <h3 class=" text-center">Password Reset</h3>
+                <form class="text-dark" action="../app/forms/password_update.php" method="post">
+                    <div class="form mb-3">
+                        <label for="fullname">New password</label>
+                        <input class="form-control"  type="password" name="password" id="" required>
+                    </div>
+
+                    <div class="form mb-3">
+                        <label for="username">Confirm Password</label>
+                        <input class="form-control" type="password" name="confirm" id="" required>
+                    </div>
+
+                    <div class="form justify-content-center text-dark mb-3">
+                        <input class="form-control w-50 btn getStarted" type="submit" name="submit" value="Update" id="">
+                    </div>
+                </form>
+            </div>
         </div>
 
     </section>
@@ -264,9 +317,19 @@ $siteName = $results4['site_name'];
 
 
 
-
+    <script src="../assets/js/sweetalert/sweetalert.js"></script>
     <script src="../assets/js/index.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.js"></script>
+
+
+
+    <script>
+        swal({
+            title: "<?= $title ?>",
+            text: "<?= $message ?>",
+            button: "Continue",
+        });
+    </script>
 </body>
 
 </html>

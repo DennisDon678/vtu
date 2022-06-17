@@ -1,15 +1,4 @@
 <?php
-/*
----------------------------------------------------------------------------------
-| # First we establishes a session check to see if a user is an admin
-| # We establish from the deposit table if any deposit has been made that awaits   | approval
-| # We check out the transactions table to display all transaction from the users 
-| # We obtain from the users table the total balance of users
-| # Query your API to obtain the balance on your wallet balance
-| # Obtain the number of registerd users
----------------------------------------------------------------------------------
-*/
-
 
 // Session check
 session_start();
@@ -23,7 +12,7 @@ if (!isset($_SESSION['admin'])) {
 
 $sql = "SELECT * FROM manual_deposits ";
 $query = mysqli_query($conn, $sql);
-$results = mysqli_num_rows($query);
+$results1 = mysqli_num_rows($query);
 
 // transactions
 $sql2 = "SELECT * FROM transactions    limit 10";
@@ -34,8 +23,17 @@ $results2 = mysqli_num_rows($query2);
 $stm = "SELECT SUM(balance) from users";
 $Customers_balance = mysqli_query($conn, $stm);
 
+// users
+$sql6 = "SELECT * FROM users";
+$query6 = mysqli_query($conn,$sql6);
+$count = mysqli_num_rows($query6);
+if ($count>0) {
 while ($ress = mysqli_fetch_array($Customers_balance)) {
-    $Cbalance = $ress['SUM(balance)'];
+   
+    $Cbalance = $ress['SUM(balance)'];  
+}
+} else {
+    $Cbalance = 0;
 }
 
 // number of users
@@ -63,7 +61,7 @@ curl_setopt_array($curl, array(
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'GET',
     CURLOPT_HTTPHEADER => array(
-        'Authorization: Token '.$api.'',
+        'Authorization: Token ' . $api . '',
         'Content-Type: application/json'
     ),
 ));
@@ -91,174 +89,125 @@ $results4 = mysqli_fetch_array($query4);
 $siteName = $results4['site_name'];
 
 
+
+// Notification
+$sql5 = "SELECT * FROM admin_notification";
+$query5 = mysqli_query($conn,$sql5);
+$num = mysqli_num_rows($query5);
+
+include('../inc/header.php');
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Area</title>
-    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../../assets/css/index.css">
-</head>
 
-<body style="background-color: blue;">
-    <section class=" section mb-5" id="dashboard">
-        <nav class="navbar navbar-light bg-light  fixed-top ">
-            <div class="container">
-                <a class="navbar-brand" href="../../"><?=$siteName?></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li onclick="show(1)" class="nav-item">
-                                <a class="nav-link active" href="../dashboard/">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../users">Users </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../transactions/">Transactions</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../payment/">Payment Gateways</a>
-                            </li>
-                            <li onclick="show(2)" class="nav-item">
-                                <a class="nav-link" href="../account">Account update</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../site">Site settings </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../vtu">vtu settings </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../logout.php?action=logout">Log out</a>
-                            </li>
-
-                    </div>
-                </div>
+<!-- Dashboard -->
+<section class="container-fluid py-5 h " id="dash">
+    <div class="container px-3 text-dark enclose bg-light">
+        <div class="d-sm-flex align-items-center justify-content-center gap-4 py-5 text-center">
+            <!-- account balance -->
+            <div class="col-sm-3 section cardcontainer">
+                <h2 class="ml-auto">API Balance</h2>
+                <h3>NGN <?= $balance ?></h3>
             </div>
-        </nav>
-    </section>
-
-    <!-- Dashboard -->
-    <section class="container-fluid py-5 h " id="dash">
-        <div class="container px-3 text-dark enclose bg-light">
-            <div class="d-sm-flex align-items-center justify-content-center gap-4 py-5 text-center">
-                <!-- account balance -->
-                <div class="col-sm-3 section cardcontainer">
-                    <h2 class="ml-auto">API Balance</h2>
-                    <h3>NGN <?= $balance ?></h3>
-                </div>
-                <!-- Deposite -->
-                <div class="col-sm-4 section cardcontainer">
-                    <h2 class="ml-auto">Number of users</h2>
-                    <h3 class=""><?= $return ?> </h3>
-                </div>
-                <!-- purchase -->
-                <div class="col-sm-4 section cardcontainer">
-                    <h2 class="ml-auto">Customers Balance</h2>
-                    <h3 class="">NGN <?= $Cbalance ?></h3>
-                </div>
+            <!-- Deposite -->
+            <div class="col-sm-4 section cardcontainer">
+                <h2 class="ml-auto">Number of users</h2>
+                <h3 class=""><?= $return ?> </h3>
+            </div>
+            <!-- purchase -->
+            <div class="col-sm-4 section cardcontainer">
+                <h2 class="ml-auto">Customers Balance</h2>
+                <h3 class="">NGN <?= $Cbalance ?></h3>
             </div>
         </div>
+    </div>
 
-        <!-- Deposit -->
+    <!-- Deposit -->
 
-        <div class="trans container py-4 my-4 bg-light section cardcontainer">
-            <div class="  ">
-                <!-- Transactions -->
-                <h3 class="text-center">Pending Deposits</h3>
+    <div class="trans container py-4 my-4 bg-light section cardcontainer">
+        <div class="  ">
+            <!-- Transactions -->
+            <h3 class="text-center">Pending Deposits</h3>
 
-                <?php
-                if ($results) {
-                    echo ('
+            <?php
+            if ($results1) {
+                echo ('
                     
                 <div class=" px-3 mx-auto py-3   ">
                      ');
 
-                    while ($result = mysqli_fetch_assoc($query)) {
-                        $id = $result['trans_id'];
-                        $email = $result['email'];
-                        $time = $result['time'];
-                        $amount = $result['amo'];
-                        $depositors_name = $result['depositor'];
-                        echo ('
-                    <div class="d-flex mb-3 p-3 cardcontainer text-dark">
+                while ($result = mysqli_fetch_assoc($query)) {
+                    $id = $result['trans_id'];
+                    $email = $result['email'];
+                    $time = $result['time'];
+                    $amount = $result['amo'];
+                    $depositors_name = $result['depositor'];
+                    echo ('
+                    <div class="d-flex mb-3 p-3 gap-2 cardcontainer text-dark">
                         <div class="col-6">
                             <h6>A pending proof</h6>
                             <p>From: <span>' . $email . '</span> </p>
                             <p>Bank Name: <span>' . $depositors_name . '</span> </p>
-                            <p>At: <span>' . $time . '</span> </p>
+                            
                         </div>
                         <div class="col-6 text-end">
                             <h6 class="">NGN ' . $amount . '</h6>
-                            <a class="btn mb-2 btn-primary" href="./approve/approve.php?id=' . $id . '">Approve</a>
+                            <a class="btn mb-2 btn-primary" href="./approve/approve.php?id=' . $id . '">Accept</a>
                             <br>
                             <a class="btn mb-2 btn-danger" href="./reject/reject.php?id=' . $id . '">Reject</a>
 
                         </div>
                     </div>
                     ');
-                    }
-                } else {
-                    echo ('
+                }
+            } else {
+                echo ('
                 <p class="text-center text-dark mt-3"> No pending transaction </p>
                 ');
+            }
+            ?>
+        </div>
+    </div>
+    </div>
+    <!-- Histories -->
+    <div class="trans container py-4 my-4 bg-light section cardcontainer">
+        <div class="">
+            <!-- Transactions -->
+            <h3 class="text-center">Transaction History</h3>
+            <?php
+            if ($results2) {
+
+
+                while ($res2 = mysqli_fetch_assoc($query2)) {
+                    $trans_id = $res2['trans_id'];
+                    $amount2 = $res2['amount'];
+                    $plan = $res2['plan_name'];
+                    $network = $res2['network'];
+                    $status2 = $res2['status'];
+                    echo ('<div class="d-flex flex-wrap cardcontainer mb-3 p-3 text-dark">');
+                    echo ('<div class="col-6">');
+                    echo ('<h6>Account Transaction</h6>');
+                    echo ('<p>Newtork: <span>' . $network . ' </span></p>');
+                    echo ('<p>Plan: <span>' . $plan . ' </span></p>');
+                    echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
+                    echo ('</div>');
+                    echo ('<div class="col-6 text-end">');
+                    echo ('<h5 >Amount</h5>');
+                    echo ('<h6 >NGN ' . $amount2 . '</h6>');
+                    echo ('<a class="btn btn-primary" target="blank" href="../../transaction/success.php?id=' . $trans_id . '">Details</a>');
+                    echo ('</div>');
+                    echo ('</div>');
                 }
-                ?>
-            </div>
-        </div>
-        </div>
-        <!-- Histories -->
-        <div class="trans container py-4 my-4 bg-light section cardcontainer">
-            <div class="">
-                <!-- Transactions -->
-                <h3 class="text-center">Transaction History</h3>
-                <?php
-                if ($results2) {
-
-
-                    while ($res2 = mysqli_fetch_assoc($query2)) {
-                        $trans_id = $res2['trans_id'];
-                        $amount2 = $res2['amount'];
-                        $plan = $res2['plan_name'];
-                        $network = $res2['network'];
-                        $status2 = $res2['status'];
-                        echo ('<div class="d-flex flex-wrap cardcontainer mb-3 p-3 text-dark">');
-                        echo ('<div class="col-6">');
-                        echo ('<h6>Account Transaction</h6>');
-                        echo ('<p>Newtork: <span>' . $network . ' </span></p>');
-                        echo ('<p>Plan: <span>' . $plan . ' </span></p>');
-                        echo ('<p>Tranaction status: <span>' . $status2 . ' </span></p>');
-                        echo ('</div>');
-                        echo ('<div class="col-6 text-end">');
-                        echo ('<h5 >Amount</h5>');
-                        echo ('<h6 >NGN ' . $amount2 . '</h6>');
-                        echo ('<a class="btn btn-primary" target="blank" href="../../transaction/success.php?id=' . $trans_id . '">Details</a>');
-                        echo ('</div>');
-                        echo ('</div>');
-                    }
-                } else {
-                    echo ('
+            } else {
+                echo ('
                                 <p class="text-center text-dark mt-3"> No Transaction has been made</p>
                             ');
-                }
-                ?>
-            </div>
+            }
+            ?>
         </div>
-    </section>
+    </div>
+</section>
 
 
 
@@ -266,8 +215,27 @@ $siteName = $results4['site_name'];
 
 
 
-    <script src="../../assets/js/index.js"></script>
-    <script src="../../assets/bootstrap/js/bootstrap.js"></script>
+<script src="../../assets/js/sweetalert/sweetalert.js"></script>
+<script src="../../assets/js/index.js"></script>
+<script src="../../assets/bootstrap/js/bootstrap.js"></script>
+
+<?php
+    if ($num>0) {
+
+?>
+<script>
+    swal({
+        title: "Unsuccessfull Transaction",
+        text: "You have an unsuccessfull transaction from your customers, kindly check your API dashboard",
+        button: "Continue",
+    });
+</script>
+
+<?php
+$sql = "TRUNCATE  admin_notification ";
+$query = mysqli_query($conn, $sql);
+    }
+?>
 </body>
 
 </html>

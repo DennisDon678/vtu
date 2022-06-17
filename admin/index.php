@@ -24,11 +24,23 @@
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Log into your admin panel</p>
 
                                     <form class="mx-1 mx-md-4" action="../app/forms/admin_login.php" method="post">
+
+                                        <?php
+                                        if (isset($_GET['msg'])) {
+                                            $msg = $_GET['msg'];
+                                        ?>
+                                            <div class="alert text-center alert-warning">
+                                                <p><?= $msg ?></p>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
+
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="text" class="form-control" name="username" required />
-                                                <label class="form-label" for="form3Example3c" required>Your Email or username</label>
+                                                <label class="form-label" for="form3Example3c" required>Your username</label>
                                             </div>
                                         </div>
 
@@ -45,7 +57,7 @@
                                             <input type="submit" name="submit" value="Log In" class="btn adlog btn-lg">
                                         </div>
                                     </form>
-                                   
+
 
                                 </div>
                                 <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">

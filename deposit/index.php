@@ -41,47 +41,13 @@ $sql4 = "SELECT * FROM site_settings";
 $query4 = mysqli_query($conn, $sql4);
 $results4 = mysqli_fetch_array($query4);
 $siteName = $results4['site_name'];
+
+
+include('../inc/dash_header.php')
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deposit</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/index.css">
-</head>
-
-<body>
-    <section class="section mb-5" id="dashboard">
-        <nav class="navbar navbar-light bg-light  fixed-top ">
-            <div class="container">
-                <a class="navbar-brand" href="../"><?=$siteName?></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../dashboard/">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../app/logout.php?action=logout">Log out</a>
-                            </li>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </section>
 
     <section class="container-fluid  pt-5 pb-4 h bg">
         <div class="container  py-4 section bg-light enclose">
@@ -146,10 +112,11 @@ $siteName = $results4['site_name'];
 
         function payWithPaystack(e) {
             e.preventDefault();
+            let fee = document.getElementById("amount").value*100 * 0.02;
             let handler = PaystackPop.setup({
                 key: '<?= $public_key ?>', // Replace with your public key
                 email: document.getElementById("email-address").value,
-                amount: document.getElementById("amount").value * 100,
+                amount: document.getElementById("amount").value * 100 + fee,
                 ref: 'AC-' + Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
                 // label: "Optional string that replaces customer email"
                 onClose: function() {

@@ -47,7 +47,7 @@ $response = $_GET['response'];
         <div class="container-fluid py-5 bg text-center h">
             <div class="container py-4  enclose section bg-light mx-auto">
                 <div class="mobile">
-                    <img class="pb-4 img-fluid mobile" src="../assets/images/disappointed-mad-emoji.png" alt="" srcset="">
+                    <img class="pb-4 img-fluid mobil" src="../assets/images/disappointed-mad-emoji.png" alt="" srcset="">
                 </div>
                 <div class="textThanks">
                     <h5 class="text-dark"><?= $response ?></h5>

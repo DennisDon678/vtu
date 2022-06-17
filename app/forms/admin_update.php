@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $newpassword = hash('md5', $password, true);
+        $newpassword = password_hash( $password, PASSWORD_DEFAULT);
 
 
         $sql = "UPDATE 	admin SET fullname = '$fullname',

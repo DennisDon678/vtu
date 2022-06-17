@@ -52,6 +52,7 @@ if ($err) {
   // grap response
   $status = $arry['data']['status'];
   $amount = ($arry['data']['amount'])/100;
+  $amount = $amount - $amount*0.02;
   $ref = $arry['data']['reference'];
   $time = $arry['data']['paid_at'];
   $email = $arry['data']['customer']['email'];

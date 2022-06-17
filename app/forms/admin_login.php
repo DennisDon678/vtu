@@ -4,14 +4,15 @@ include('../../connection/database.php');
 
 if (isset($_POST['submit'])) {
     $user = $_POST['username'];
-    $password = $_POST['password'];
+    $pass = $_POST['password'];
 
-    $sql = "SELECT * FROM admin WHERE username= '$user' ";
+    $sql = "SELECT * FROM admin WHERE username = '$user' ";
     $query = mysqli_query($conn, $sql);
     $result = mysqli_fetch_array($query);
     $userpass = $result['password'];
+    
 
-    if ($result &&  $pass == password_verify($password, $userpass)) {
+    if ($result && password_verify( $pass , $userpass )) {
         $_SESSION['admin'] = $result['username'];
         header('location: ../../admin/dashboard');
     } else {

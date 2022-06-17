@@ -6,6 +6,6 @@ if (!empty($val)) {
         session_unset();
         header('location: ./');
     } else {
-        echo ('error');
+        header('location: ./');
     }
 }

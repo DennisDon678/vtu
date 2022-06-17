@@ -18,73 +18,28 @@ $results1 = mysqli_fetch_array($query1);
 $siteName = $results1['site_name'];
 $siteDescription = $results1['site_description'];
 
+// contact 
+$sql3 = "SELECT * FROM contact";
+$query3 = mysqli_query($conn,$sql3);
+$result3 = mysqli_fetch_array($query3);
+$tel = $result3['phone'];
+$email = $result3['email'];
+$whatsapp = $result3['whatsapp'];
+$street_num = $result3['street_number'];
+$street_name = $result3['street_name'];
+$town = $result3['town'];
 
+
+include('../inc/header.php');
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Area</title>
-    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../../assets/css/index.css">
-</head>
-
-<body style="background-color: blue;">
-    <section class=" section mb-5" id="dashboard">
-        <nav class="navbar navbar-light bg-light  fixed-top ">
-            <div class="container">
-                <a class="navbar-brand" href="../../"><?=$siteName?><</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li onclick="show(1)" class="nav-item">
-                                <a class="nav-link active" href="../dashboard/">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../users">Users </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../transactions/">Transactions</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../payment/">Payment Gateways</a>
-                            </li>
-                            <li onclick="show(2)" class="nav-item">
-                                <a class="nav-link" href="../account">Account update</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../site">Site settings </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../vtu">vtu settings </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../logout.php?action=logout">Log out</a>
-                            </li>
-
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </section>
 
 
     <section class="container-fluid mt-5 py-5 h">
         <div class="container py-4 section bg-light enclose">
 
-
+            <!-- Sit setting -->
             <h3 class=" text-center">Update Website settings options</h3>
             <div class="notice">
                 <p class="alert alert-success">This where you configure the name of your website and the descriptions, add details that would be nice to your users.</p>
@@ -100,12 +55,53 @@ $siteDescription = $results1['site_description'];
                     <textarea class="form-control" type="text" name="description" id="" required><?= $siteDescription ?></textarea>
                 </div>
 
+
                 <div class="form justify-content-center text-dark mb-3">
                     <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update">
                 </div>
             </form>
 
+            <!-- Contact info -->
+            <h3 class=" text-center">Contact information</h3>
+            <form class="text-dark" action="../../app/forms/contact/contact.php" method="post">
+                <h5>Mobile</h5>
+                <div class="form mb-3">
+                    <label for="fullname">Company Tel.</label>
+                    <input class="form-control" value="<?= $tel ?>" type="text" name="tel" id="" required>
+                </div>
 
+                <div class="form mb-3">
+                    <label for="fullname">Support Email</label>
+                    <input class="form-control" value="<?= $email ?>" type="text" name="email" id="" required>
+                </div>
+
+                <div class="form mb-3">
+                    <label for="fullname">Whatsapp number</label>
+                    <input class="form-control" value="<?= $whatsapp ?>" type="text" name="whatsapp" id="" required>
+                </div>
+                <!-- physical address -->
+                <h5>Office location</h5>
+                <div class="form mb-3">
+                    <label for="fullname">street number</label>
+                    <input class="form-control" value="<?= $street_num ?>" type="text" name="street_num" id="" required>
+                </div>
+
+                <div class="form mb-3">
+                    <label for="fullname">Street Name</label>
+                    <input class="form-control" value="<?= $street_name ?>" type="text" name="Street_name" id="" required>
+                </div>
+
+                <div class="form mb-3">
+                    <label for="fullname">Town</label>
+                    <input class="form-control" value="<?= $town ?>" type="text" name="town" id="" required>
+                </div>
+
+                <div class="form justify-content-center text-dark mb-3">
+                    <input class="form-control w-50 btn adlog" type="submit" name="submit" value="Update">
+                </div>
+            </form>
+
+            <!-- API setting -->
             <h3 class=" text-center">API key set-up</h3>
 
             <form class="text-dark" action="../../app/forms/API/api.php" method="post">

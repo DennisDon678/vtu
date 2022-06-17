@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
     $result = mysqli_fetch_array($query);
     $userpass = $result['password']; 
     
-    if ($result &&  $password == password_verify( $pass , $userpass ) ) {
+    if ($result && password_verify( $pass , $userpass ) ) {
         $_SESSION['user'] = $result['username'];
         header('location: ../../dashboard'); 
     } else {
